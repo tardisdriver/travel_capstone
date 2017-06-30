@@ -28,6 +28,6 @@ function closeServer() {
     });
   });
 }
-//runServer();
+runServer();
 
 module.exports = {app, runServer, closeServer};

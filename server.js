@@ -28,6 +28,9 @@ function closeServer() {
     });
   });
 }
+
+
 runServer();
+
 
 module.exports = {app, runServer, closeServer};

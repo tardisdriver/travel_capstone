@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 app.use(express.static('public'));
 
-
+let server;
 
 function runServer() {
   const port = process.env.PORT || 8888;
@@ -29,6 +29,9 @@ function closeServer() {
   });
 }
 
+if (require.main === module) {
+  runServer().catch(err => console.error(err));
+};
 
 runServer();
 

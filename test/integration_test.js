@@ -8,21 +8,28 @@ const {app, runServer, closeServer} = require('../server');
 const should = chai.should();
 chai.use(chaiHttp);
 
-describe('GET endpoint', function() {
-	/*before(function() {
+describe('Trips', function() {
+	before(function() {
     	return runServer();
-  		});*/
+  		});
 
 	after(function() {
     	return closeServer();
  		 });
 
-	it('should return HTML on GET', function() {
+	it('should return trip data on GET', function() {
 		return chai.request(app)
-		.get('/')
+		.get('/trips')
 		.then(function(res) {
 			res.should.have.status(200);
-			res.should.be.html;
+			res.should.be.json;
+			res.body.length.should.be.at.least(1);
+
+		const expectedKeys = ['destination', 'budget', 'lodgingCost', 'airfareCost', 'foodCost', 'carRentalCost', 'entertainmentCost', 'miscCost'];
+      		res.body.forEach(function(item) {
+       		item.should.be.a('object');
+        	item.should.include.keys(expectedKeys);
+         });
 		});
 	});
 });

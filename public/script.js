@@ -1,7 +1,8 @@
 var MOCK_DATA = {
   "userData": [
       {
-      "id:": "111",
+      "id:": "111111",
+      "destination": "Cancun, Mexico",
       "budget": "2000",
       "lodgingCost": "1000",
       "airfareCost": "300",
@@ -11,7 +12,8 @@ var MOCK_DATA = {
       "miscCost": "150"
       },
       {
-      "id": "222",
+      "id": "222222",
+      "destination": "Puerto Vallarta",
       "budget": "1700",
       "lodgingCost": "900",
       "airfareCost": "400",
@@ -21,7 +23,8 @@ var MOCK_DATA = {
       "miscCost": "100"
       },
       {
-      "id": "333",
+      "id": "333333",
+      "destination": "London, UK",
       "budget": "5000",
       "lodgingCost": "2000",
       "airfareCost": "1400",

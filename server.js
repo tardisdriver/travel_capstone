@@ -1,11 +1,24 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const router = express.Router();
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+
+const {Trips} = require('./models');
+const tripsRouter = require('./tripsRouter');
+
+const jsonParser = bodyParser.json();
+const app = express();
+
+app.use(morgan('common'));
+
 app.use(express.static('public'));
+
+app.use('/', tripsRouter);
 
 let server;
 
 function runServer() {
-  const port = process.env.PORT || 8888;
+  const port = process.env.PORT || 8080;
   return new Promise((resolve, reject) => {
     server = app.listen(port, () => {
       console.log(`Your app is listening on port ${port}`);
@@ -32,8 +45,5 @@ function closeServer() {
 if (require.main === module) {
   runServer().catch(err => console.error(err));
 };
-
-runServer();
-
 
 module.exports = {app, runServer, closeServer};

@@ -1,0 +1,4 @@
+{"destination": "Nassau, Bahamas", "budget": "2500", "lodgingCost": "700", "airfareCost": "600", "foodCost" : "200", "carRentalCost" : "0", "entertainmentCost" : "100", "miscCost": "100"}
+{"destination": "Paris, France", "budget": "3500", "lodgingCost": "1133", "airfareCost": "900", "foodCost" : "333", "carRentalCost" : "222", "entertainmentCost" : "111", "miscCost": "123"}
+{"destination": "Cancun, Mexico", "budget": "1500", "lodgingCost": "400", "airfareCost": "550", "foodCost" : "222", "carRentalCost" : "50", "entertainmentCost" : "220", "miscCost": "115"}
+{"destination": "Toronto, Canada", "budget": "3100", "lodgingCost": "800", "airfareCost": "650", "foodCost" : "250", "carRentalCost" : "99", "entertainmentCost" : "150", "miscCost": "170"}

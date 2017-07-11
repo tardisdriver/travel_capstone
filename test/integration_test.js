@@ -1,13 +1,12 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const mongoose = require('mongoose');
 const faker = require('faker');
-process.env.PORT=9999;
+const mongoose = require('mongoose');
 
 const should = chai.should();
 
 const {app, runServer, closeServer} = require('../server');
-const {Trips} = require('../models');
+const {Trip} = require('../models');
 const {TEST_DATABASE_URL} = require('../config');
 
 chai.use(chaiHttp);
@@ -20,18 +19,12 @@ function seedTripData() {
     seedData.push(generateTripData());
   }
 
-  return Trips.insertMany(seedData);
+  return Trip.insertMany(seedData);
  }
-
- function generateDestination() {
-  const destinations = [
-    'Niagra Falls', 'Kenyan Safari', 'Albequerque', 'Frankfurt, Germany', 'Sydney, Australia'];
-  return destinations[Math.floor(Math.random() * destinations.length)];
-}
 
 function generateTripData() {
   return {
-  	destination: generateDestination(),
+  	destination: faker.address.country(),
   	budget: faker.random.number(),
     lodgingCost: faker.random.number(),
     airfareCost: faker.random.number(),
@@ -39,7 +32,6 @@ function generateTripData() {
     carRentalCost: faker.random.number(),
     entertainmentCost: faker.random.number(),
     miscCost: faker.random.number()
-
     }
   }
 
@@ -52,7 +44,7 @@ function tearDownDb() {
 
 describe('Trips API resource', function() {
 	before(function() {
-    	return runServer();
+    	return runServer(TEST_DATABASE_URL);
   		});
 
 	beforeEach(function() {
@@ -80,11 +72,11 @@ describe('Trips API resource', function() {
 				tri.should.have.status(200);
 				tri.should.be.json;
 				tri.body.trips.should.have.length.of.at.least(1);
-				return Trips.count();
+				return Trip.count();
 			})
-			//.then(function(count) {
-				//tri.body.trips.shouldhave.length.of(count);
-			//});
+			.then(function(count) {
+				tri.body.trips.should.have.length.of(count);
+			});
 		});
 
 	it('should return trips with correct fields', function() {
@@ -103,14 +95,10 @@ describe('Trips API resource', function() {
 						'id', 'destination', 'budget', 'lodgingCost', 'airfareCost', 'foodCost', 'carRentalCost', 'entertainmentCost', 'miscCost');
 				});
 				triTrip = tri.body.trips[0];
-
-				return Trips.findById(triTrip.id);
-
+				return Trip.findById(triTrip.id);
 			})
 				.then(function(trips) {
-					
-
-					triTrip.id.should.equal(trips.id);
+					triTrip.id.should.equal(trips._id.toString());
 					triTrip.destination.should.equal(trips.destination);
 					triTrip.budget.should.equal(trips.budget);
 					triTrip.lodgingCost.should.equal(trips.lodgingCost);
@@ -119,15 +107,82 @@ describe('Trips API resource', function() {
 					triTrip.carRentalCost.should.equal(trips.carRentalCost);
 					triTrip.entertainmentCost.should.equal(trips.entertainmentCost);
 					triTrip.miscCost.should.equal(trips.miscCost);
+					});
 				});
-			});
 
-		/*const expectedKeys = ['destination', 'budget', 'lodgingCost', 'airfareCost', 'foodCost', 'carRentalCost', 'entertainmentCost', 'miscCost'];
-      		res.body.forEach(function(item) {
-       		item.should.be.a('object');
-        	item.should.include.keys(expectedKeys);
+	});
 
-         	});*/
-			});
+	describe('POST endpoint', function() {
+		it('should add a new trip', function() {
+			const newTrip = generateTripData();
+			return chai.request(app)
+				.post('/trips')
+				.send(newTrip)
+				.then(function(res) {
+					res.should.have.status(201);
+					res.should.be.json;
+					res.body.should.be.a('object');
+					res.body.should.include.keys(
+						'id', 'destination', 'budget', 'lodgingCost', 'airfareCost', 'foodCost', 'carRentalCost', 'entertainmentCost', 'miscCost');
+				});
+				res.body.id.should.not.be.null;
+				res.body.desination.should.equal(newTrip.destination);
+				res.body.budget.should.equal(newTrip.budget);
+				res.body.lodgingCost.should.equal(newTrip.lodgingCost);
+				res.body.airfareCost.should.equal(newTrip.airfareCost);
+				res.body.foodCost.should.equal(newTrip.foodCost);
+				res.body.carRentalCost.should.equal(newTrip.carRentalCost);
+				res.body.entertainmentCost.should.equal(newTrip.entertainmentCost);
+				res.body.miscCost.should.equal(newTrip.miscCost);
+
+				});
 		});
+
+	describe('DELETE endpoint', function() {
+    it('should delete a trip by ID', function() {
+      let tripdata;
+
+      return Trip
+        .findOne()
+        .exec()
+        .then(function(tripdata) {
+          return chai.request(app).delete(`/trips/${tripdata.id}`);
+        })
+        .then(function(res) {
+          res.should.have.status(204);
+        })
+        .then(function(tripdata) {
+          should.not.exist(tripdata);
+        });
+    });
+  });
+
+	describe('PUT endpoint', function() {
+		it('should update fields sent over', function() {
+			const updateData = {
+				destination: 'ABC123',
+				budget: '12345'
+			};
+
+			return Trip
+				.findOne()
+				.exec()
+				.then(function(tripdata) {
+					updateData.id = tripdata.id;
+					return chai.request(app)
+						.put(`/trips/${tripdata.id}`)
+						.send(updateData);
+				})
+				.then(function(res) {
+					res.should.have.status(201);
+					return Trip.findById(updateData.id).exec();
+				})
+				.then(function(tripdata){
+					tripdata.destination.should.equal(updateData.destination);
+					tripdata.budget.should.equal(updateData.budget);
+				});
+		});
+	});
+	});
+
 	

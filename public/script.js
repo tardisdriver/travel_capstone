@@ -1,25 +1,81 @@
-function getData(callback) {
-  setTimeout(function(){ 
-    callback(MOCK_DATA)
-  }, 100);
+var TRIPS_DATA_URL = 'http://localhost:8888/trips';
+
+
+function getDataFromTripAPI(callback) {
+  //gets data from API
+  var settings = {
+  url: TRIPS_DATA_URL,
+  type: "GET",
+    success: function(data) {
+      callback(data);
+      }
+    };
+  $.ajax(settings);
+  
 }
 
-function displayData(data) {
-  for (index in data.userData) {
-    $('body').append(
-      '<p>Your Total Budget:' + data.userData[index].budget + '<p>',
-      '<p> Lodging Cost: ' + data.userData[index].lodgingCost + '<p>',
-      '<p> Airfare Cost: ' + data.userData[index].airfareCost + '<p>',
-      '<p> Food Cost: ' + data.userData[index].foodCost + '<p>',
-      '<p> Car Rental Cost: ' + data.userData[index].carRentalCost + '<p>',
-      '<p> Entertainment Cost: ' + data.userData[index].entertainmentCost + '<p>',
-      '<p> Miscellaneous Cost: ' + data.userData[index].miscCost + '<p>');
+/*function editTrip(tripID, callback) {
+  var settings = {
+    url: TRIPS_DATA_URL,
+    type: "PUT",
+    data: {
+      destination: $(".js-destination").value(),
+      budget: $(".js-budget").value(),
+    }
+      success:function(data){
+        callback(data);
+      }
+  }
+}*/
+
+
+function addTrip() {
+  //adds new trip  
+  console.log('addTrip ran');
+  var settings = {
+    url: TRIPS_DATA_URL,
+    type: "POST",
+    data: {
+      destination: $(".js-destination").value(),
+      budget: $(".js-budget").value(),
+      aifareCost: $(".js-airfareCost").value(),
+      lodgingCost: $(".js-lodgingCost").value(),
+      foodCost: $(".js-foodCost").value(),
+      entertainmentCost: $(".js-entertainmentCost").value(),
+      carRentalCost: $(".js-carRentalCost").value(),
+      miscCost: $(".js-miscCost").value()
+    },
+      success:function(data){
+        callback(data);
+      }
   }
 }
 
-function getAndDisplayData() {
-  getData(displayData);
+function renderSavedTripData(data) {
+  for (var i = 0; i<data.trips.length; i++){
+  $(".js-savedTrips").append(
+    '<div>' +
+       '<span>Destination: ' + data.trips[i].destination + '<br>' +
+       '<span>Budget: ' + data.trips[i].budget + '<br>' +
+       '<span>Airfare Cost: ' + data.trips[i].airfareCost + '<br>'+
+       '<span>Lodging Cost: ' + data.trips[i].lodgingCost + '<br>' +
+       '<span>Food Cost: ' + data.trips[i].foodCost + '<br>' +
+       '<span>Entertainment Cost: ' + data.trips[i].entertainmenCost + '<br>' +
+       '<span>Car Rental Cost: ' + data.trips[i].carRentalCost + '<br>' +
+       '<span>Miscellaneous Cost: ' + data.trips[i].miscCost +'<br>' +
+       '<span>Edit This Trip</span>'+
+        '</div><br><br>');
+  }
+}
+
+function handleNewSubmit() {
+  console.log('handleNewSubmit ran');
+  //handles new trip when submit button is pressed
+  addTrip();
 }
 
 
-getAndDisplayData();
+$(document).ready(function() {
+  getDataFromTripAPI(renderSavedTripData);
+  $(handleNewSubmit);
+});

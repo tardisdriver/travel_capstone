@@ -36,19 +36,21 @@ function addTrip() {
     url: TRIPS_DATA_URL,
     type: "POST",
     data: {
-      destination: $(".js-destination").value(),
-      budget: $(".js-budget").value(),
-      aifareCost: $(".js-airfareCost").value(),
-      lodgingCost: $(".js-lodgingCost").value(),
-      foodCost: $(".js-foodCost").value(),
-      entertainmentCost: $(".js-entertainmentCost").value(),
-      carRentalCost: $(".js-carRentalCost").value(),
-      miscCost: $(".js-miscCost").value()
+      destination: $(".js-destination").val(),
+      budget: $(".js-budget").val(),
+      airfareCost: $(".js-airfareCost").val(),
+      lodgingCost: $(".js-lodgingCost").val(),
+      foodCost: $(".js-foodCost").val(),
+      entertainmentCost: $(".js-entertainmentCost").val(),
+      carRentalCost: $(".js-carRentalCost").val(),
+      miscCost: $(".js-miscCost").val()
     },
       success:function(data){
         callback(data);
       }
-  }
+  };
+  console.log(settings);
+  $.ajax(settings);
 }
 
 function renderSavedTripData(data) {
@@ -68,14 +70,18 @@ function renderSavedTripData(data) {
   }
 }
 
+
 function handleNewSubmit() {
-  console.log('handleNewSubmit ran');
   //handles new trip when submit button is pressed
-  addTrip();
+  $("#js-trip-info").on("submit", function(e) {
+    console.log('handleNewSubmit ran');
+      e.preventDefault();
+      addTrip();
+  });
 }
 
 
 $(document).ready(function() {
-  getDataFromTripAPI(renderSavedTripData);
   $(handleNewSubmit);
+  getDataFromTripAPI(renderSavedTripData);
 });

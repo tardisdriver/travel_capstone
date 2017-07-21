@@ -2,7 +2,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-//const router = express.Router();
+const cors = require('cors');
 const morgan = require('morgan');
 
 //const tripsRouter = require('./tripsRouter');
@@ -15,6 +15,7 @@ const app = express();
 app.use(morgan('common'));
 app.use(bodyParser.json());
 app.use(express.static('public'));
+app.use(cors());
 //app.use('/', tripsRouter);
 
 

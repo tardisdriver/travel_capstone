@@ -1,37 +1,62 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<title>Travel Buddy</title>
+  <title>Travel Buddy</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
+
 <body>
-	<h1>Travel Buddy</h1>
-	<p>Enter your dream trip below!</p><br><br>
-	<!--<form id="js-trip-info">
-		Enter destination:<br>
-		<input type="text" class="js-destination"><br>
-		Enter your budget: <br>
-		<input type="text" class="js-budget"><br>
-		Enter Airfare Cost: <br>
-		<input type="text" class="js-airfareCost"><br>
-		Enter Lodging Cost: <br>
-		<input type="text" class="js-lodgingCost"><br>
-		Enter Food Cost: <br>
-		<input type="text" class="js-foodCost"><br>
-		Enter Car Rental Cost: <br>
-		<input type="text" class="js-carRentalCost"><br>
-		Enter Entertainment Cost: <br>
-		<input type="text" class="js-entertainmentCost"><br>
-		Enter Miscellaneous Cost: <br>
-		<input type="text" class="js-miscCost"><br><br>
-		<button type="submit">Submit</button>
-	</form>-->
-	<h2>Your Saved Trips</h2>
-	<div class="js-savedTrips"></p>
-
-	<script src="script.js"></script>
+    <div class="container">
+        <header>
+            <h1>Travel Buddy</h1>
+        </header>
+        <section>
+            <p class="site-descr">Travel Buddy is your travel budgeting friend.  Add destinations you'd like to visit.  You can come back and edit your trips at any time.</p>
+        </section>
+        <form id="js-trip-list-form" class="add-form">
+                <h3>Add Trip</h3>
+                <br>
+                <span>Destination: </span><input type="text" name="trip-list-entry" class="js-trip-list-entry form-control"><br>
+                <span>Budget: </span><input type="number" name="trip-list-entry-budget" class="js-trip-list-entry-budget form-control"><br>
+                <span>Airfare Cost: </span><input type="number" name="trip-list-entry-airfare" class="js-trip-list-entry-airfare form-control"><br>
+                <span>Lodging Cost: </span><input type="number" name="trip-list-entry-lodging" class="js-trip-list-entry-lodging form-control"><br>
+                <button type="submit" class="btn btn-primary">Add trip</button>
+        </form>
+        <section>
+            <div class="saved-trips">
+                <h3>Your Saved Trips</h3>
+                <ul class="trip-list js-trip-list">
+                </ul>
+            </div>
+        </section>
+    </div>
+<!-- TEMPLATE -->
+    <div class="hidden">
+        <div id="list-item-template">
+            <form class="js-saved-trips">
+                <li class="js-item-index-element">
+                    <span class="saved-item">Destination: </span><input type="text" nameclass="trip-item js-trip-item"></span><br>
+                    <span class="saved-item">Budget: </span><input type="number" class="trip-item js-trip-item-budget"></span><br>
+                    <span class="saved-item">Airfare Cost: </span><input type="number" class="trip-item js-trip-item-airfare"></span><br>
+                    <span class="saved-item">Lodging Cost: </span><input type="number" class="trip-item js-trip-item-lodging"></span><br>
+                    <span class="saved-item">Amount Left to Spend: </span><span id="budget-calc" class="trip-item js-budget-calc"></span>
+                </li>
+                <div class="trip-item-controls">
+                    <button class ="js-item-edit btn btn-warning">
+                        <span class ="button-label">save changes</span>
+                    </button>
+                    <button class="btn btn-danger js-item-delete">
+                        <span class="button-label">delete</span>
+                    </button>
+                    <br><br>
+                </div>
+        </form>
+        </div>
+    </div>
 </body>
-
+  <script type="text/javascript" src="script.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </html>
-

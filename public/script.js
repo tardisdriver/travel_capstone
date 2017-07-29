@@ -1,148 +1,187 @@
-var TRIPS_DATA_URL = 'http://localhost:8888/trips';
-
-
-function getDataFromTripAPI(callback) {
-  //gets data from API
-  var settings = {
-  url: TRIPS_DATA_URL,
-  type: "GET",
-    success: function(data) {
-      callback(data);
-      }
-    };
-  $.ajax(settings);
-  
-}
-
-function editTrip() {
-  var jsDestination = $('.js-destination').val();
-  console.log(jsDestination);
-
-    $.ajax({
-            type: "PUT",
-            url: TRIPS_DATA_URL,
-            dataType: 'json',
-            data: {
-              destination: jsDestination
-            }
-        })
-
-        .done(function() {
-          
-            // console.log(dataOutput);
-            // displayActiveActivityResults(JSON.parse(resultsForJsonParse));
-        })
-        .fail(function(jqXHR, error, errorThrown) {
-            console.log(jqXHR);
-            console.log(error);
-            console.log(errorThrown);
-        });
-  }
-
-
-
-function addTrip(callback) {
-  //adds new trip  
-  console.log('addTrip ran');
-  var settings = {
-    url: TRIPS_DATA_URL,
-    type: "POST",
-    data: JSON.stringify({
-      destination: $(".js-destination").val(),
-      budget: $(".js-budget").val(),
-      airfareCost: $(".js-airfareCost").val(),
-      lodgingCost: $(".js-lodgingCost").val(),
-      foodCost: $(".js-foodCost").val(),
-      entertainmentCost: $(".js-entertainmentCost").val(),
-      carRentalCost: $(".js-carRentalCost").val(),
-      miscCost: $(".js-miscCost").val()
-    }),
-      dataType: 'json',
-      contentType: 'application/json',
-      success:function(data){
-        if (typeof callback !== 'undefined') {
-        callback(data);
+const STORE = [
+    {
+        destination: "Greece",
+        budget: 4000,
+        costs:
+        [
+            { name: "airfare", value: 1000 },
+            { name: "lodging", value: 900 }
+        ],
+        
+        get airfare() {
+            const findAirfare = item => item.name == "airfare";
+            const airfare = this.costs.find(findAirfare);
+            return airfare.value;
+        },
+        get lodging() {
+            const findLodging = item => item.name == "lodging";
+            const lodging = this.costs.find(findLodging);
+            return lodging.value;
         }
-      }
-  };
-  $.ajax(settings);
-  //need code to add item to page
-}
-
-
-function deleteTrip() {
-  $('.js-delete').on('click', function() {
-    console.log('deletetrip ran');
-    if (confirm('Are you sure you want to delete this trip?')) {
-      var id = $(this).parent().attr('id');
-      $.ajax({
-        url: TRIPS_DATA_URL,
-        data: id,
-        method: 'DELETE',
-      })
-      .done(function() {
-        console.log('trip deleted');
-        window.location.reload(true);
-      });
+    },
+    {
+        destination: "Australia",
+        budget: 5000,
+        costs:
+        [
+            { name: "airfare", value: 1300 },
+            { name: "lodging", value: 1000 }
+        ],
+        get airfare() {
+            const findAirfare = item => item.name == "airfare";
+            const airfare = (this.costs).find(findAirfare);
+            return airfare.value;
+        },
+        get lodging() {
+            const findLodging = item => item.name == "lodging";
+            const lodging = (this.costs).find(findLodging);
+            return lodging.value;
+        }
     }
-  })
+];
+
+
+const TRIP_LIST_ELEMENT_IDENTIFIER = '.js-trip-list';
+const ITEM_DESTINATION_IDENTIFIER = '.js-trip-item';
+const ITEM_BUDGET_IDENTIFIER = '.js-trip-item-budget';
+const ITEM_AIRFARE_IDENTIFIER = '.js-trip-item-airfare';
+const ITEM_LODGING_IDENTIFIER = '.js-trip-item-lodging';
+const ITEM_TEMPLATE_IDENTIFIER = '#list-item-template';
+const ITEM_INDEX_ATTRIBUTE = 'data-item-index';
+const ITEM_INDEX_ELEMENT_IDENTIFIER = '.js-item-index-element';
+const NEW_ITEM_FORM_IDENTIFIER = '#js-trip-list-form';
+const NEW_ITEM_FORM_INPUT_IDENTIFIER = '.js-trip-list-entry';
+const NEW_ITEM_FORM_INPUT_IDENTIFIER_BUDGET = '.js-trip-list-entry-budget';
+const NEW_ITEM_FORM_INPUT_IDENTIFIER_AIRFARE = ".js-trip-list-entry-airfare";
+const NEW_ITEM_FORM_INPUT_IDENTIFIER_LODGING = ".js-trip-list-entry-lodging";
+const ITEM_AMOUNT_LEFT_IDENTIFIER = '.js-budget-calc';
+const ITEM_DELETE_IDENTIFIER = '.js-item-delete';
+const ITEM_EDIT_IDENTIFIER = '.js-item-edit';
+
+function calculateAmountLeft(item) {
+    const budget = item.budget;
+    const expenses = parseInt(item.airfare) + parseInt(item.lodging);
+    const amountLeft = budget - expenses;
+
+    return amountLeft;
+}
+
+function generateItemElement(item, itemIndex, template) {
+    template.find(ITEM_DESTINATION_IDENTIFIER).attr("value", item.destination);
+    template.find(ITEM_BUDGET_IDENTIFIER).attr("value", item.budget);
+    template.find(ITEM_AIRFARE_IDENTIFIER).attr("value", item.airfare);
+    template.find(ITEM_LODGING_IDENTIFIER).attr("value", item.lodging);
+    const amt_left = calculateAmountLeft(item);
+    template.find(ITEM_AMOUNT_LEFT_IDENTIFIER).text(amt_left);
+    template.find('.js-item-index-element').attr(ITEM_INDEX_ATTRIBUTE, itemIndex);
+    return template.html();
+}
+
+function generateTripItemsString(tripList) {
+    console.log("Generating trip list element");
+    const items = tripList.map(function (item, index) {
+        const template = $(ITEM_TEMPLATE_IDENTIFIER).clone();
+        return generateItemElement(item, index, template);
+    });
+    return items.join("");
+}
+
+function renderTripList() {
+    console.log('`renderTripList` ran');
+    // generate HTML for the list
+    const tripListItemsString = generateTripItemsString(STORE);
+    // insert that HTML into the DOM
+    $(TRIP_LIST_ELEMENT_IDENTIFIER).html(tripListItemsString);
+
+}
+
+function addItemToTripList(itemDestination, itemBudget, itemAirfare, itemLodging) {
+    console.log('Adding stuff to Trip list');
+    STORE.push({ destination: itemDestination, budget: itemBudget, airfare: itemAirfare, lodging: itemLodging });
 }
 
 
+function handleNewItemSubmit() {
+    $(NEW_ITEM_FORM_IDENTIFIER).submit(function (event) {
+        event.preventDefault();
+        console.log('`handleNewItemSubmit` ran');
 
-function renderSavedTripData(data) {
-  for (var i = 0; i<data.trips.length; i++){
-  $(".js-savedTrips").append(
-    '<div>' +
-        '<form class = "js-form">'+
-       '<span>Destination: <input type="text" class= "js-destination" value="' + data.trips[i].destination + '"><br>' +
-       /*'<span>Budget: ' + data.trips[i].budget + '<br>' +
-       '<span>Airfare Cost: ' + data.trips[i].airfareCost + '<br>'+
-       '<span>Lodging Cost: ' + data.trips[i].lodgingCost + '<br>' +
-       '<span>Food Cost: ' + data.trips[i].foodCost + '<br>' +
-       '<span>Entertainment Cost: ' + data.trips[i].entertainmenCost + '<br>' +
-       '<span>Car Rental Cost: ' + data.trips[i].carRentalCost + '<br>' +
-       '<span>Miscellaneous Cost: ' + data.trips[i].miscCost +'<br>' +*/
-       `<input type="hidden" name="trip_id" value="${data.trips[i].id}"></input>
-       <button type="submit" class="js-edit">Save Changes</button>
-       <button type="button" class="js-delete">Delete this trip</button></div><br><br>
-        </form>`);
-  }
+        const newItemElement = $(NEW_ITEM_FORM_INPUT_IDENTIFIER);
+        const newItemElementBudget = $(NEW_ITEM_FORM_INPUT_IDENTIFIER_BUDGET);
+        const newItemElementAirfare = $(NEW_ITEM_FORM_INPUT_IDENTIFIER_AIRFARE);
+        const newItemElementLodging = $(NEW_ITEM_FORM_INPUT_IDENTIFIER_LODGING);
+        const newItemDestination = newItemElement.val();
+        const newItemBudget = newItemElementBudget.val();
+        const newItemAirfare = newItemElementAirfare.val();
+        const newItemLodging = newItemElementLodging.val();
+
+        newItemElement.val('');
+        newItemElementBudget.val('');
+        newItemElementAirfare.val('');
+        newItemElementLodging.val('');
+
+        addItemToTripList(newItemDestination, newItemBudget, newItemAirfare, newItemLodging);
+        renderTripList();
+    });
 }
 
-
-function handleNewSubmit() {
-  //handles new trip when submit button is pressed
-  $("#js-trip-info").on("submit", function(e) {
-    console.log('handleNewSubmit ran');
-      e.preventDefault();
-      addTrip();
-  });
-}
-
-function handleEditTrip() {
-  $('.js-form').submit(function(e) {
+function getItemIndexFromElement(item, itemIndex) {
+    debugger;
+    const itemIndexString = $(item)
+        .closest('.js-item-index-element')
+        .attr('data-item-index', itemIndex);
+    console.log('itemIndex ' + itemIndex);
+    console.log('pareseInt: ', parseInt(itemIndexString, 10));
+    return parseInt(itemIndexString, 10);
     
-    e.preventDefault();
-    var userInput = $('.js-destination').val();
-    console.log(userInput);
-    editTrip(userInput);
-  })
+}
+
+function deleteClickedItem(itemIndex) {
+    console.log("Deleting li for item at index " + itemIndex);
+    STORE.splice(itemIndex, 1);
 }
 
 
-$(document).ready(function() {
-  $(handleNewSubmit);
-  deleteTrip();
-  handleEditTrip();
-  getDataFromTripAPI(renderSavedTripData);
-});
+function handleDeleteItemClicked() {
+    $(TRIP_LIST_ELEMENT_IDENTIFIER).on('click', ITEM_DELETE_IDENTIFIER, function (event) {
+        console.log('`handleDeleteItemClicked` ran');
+        const itemIndex = getItemIndexFromElement(event.currentTarget);
+        deleteClickedItem(itemIndex);
+        renderTripList();
+    });
+}
 
-$(".js-savedTrips").submit('.js-form', function(e) {
-    console.log('id: ', e.target.trip_id);
-    console.log('handleEditTrip ran');
-    e.preventDefault();
-    var userInput = $('.js-destination').val();
-    console.log(userInput);
-    editTrip(userInput);
-  });
+function editClickedItem(item, itemIndex) {
+    console.log('Editing item at index ' + itemIndex);
+    //get the user's new input
+    var newDestination = $('.js-trip-item').val();
+    var newBudget = $('.js-trip-item-budget').val();
+    var newAirfare = $('.js-trip-item-airfare').val();
+    var newLodging = $('.js-trip-item-lodging').val();
+    
+    //change appropriate entry in STORE
+    //STORE[itemIndex].destination = newDestination;
+}
+
+function handleEditItemClicked() {
+    console.log('handleEditItemClicked ran');
+    $('#js-saved-trips').on('submit', ITEM_EDIT_IDENTIFIER, function (event) {
+        console.log('handleEditItem ran');
+        const itemIndex = getItemIndexFromElement(event.currentTarget);
+        console.log(itemIndex);
+        editClickedItem(itemIndex);
+        renderTripList();
+    });
+
+    //event.currentTarget.trip_id.value --> look for this 
+    //git --> merge everything back to master and work on master
+}
+
+function handleTripList() {
+    renderTripList();
+    handleNewItemSubmit();
+    handleDeleteItemClicked();
+    handleEditItemClicked();
+}
+
+$(handleTripList);

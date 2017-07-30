@@ -40,47 +40,29 @@ const STORE = [
     }
 ];
 
-
-const TRIP_LIST_ELEMENT_IDENTIFIER = '.js-trip-list';
-const ITEM_DESTINATION_IDENTIFIER = '.js-trip-item';
-const ITEM_BUDGET_IDENTIFIER = '.js-trip-item-budget';
-const ITEM_AIRFARE_IDENTIFIER = '.js-trip-item-airfare';
-const ITEM_LODGING_IDENTIFIER = '.js-trip-item-lodging';
-const ITEM_TEMPLATE_IDENTIFIER = '#list-item-template';
-const ITEM_INDEX_ATTRIBUTE = 'data-item-index';
-const ITEM_INDEX_ELEMENT_IDENTIFIER = '.js-item-index-element';
-const NEW_ITEM_FORM_IDENTIFIER = '#js-trip-list-form';
-const NEW_ITEM_FORM_INPUT_IDENTIFIER = '.js-trip-list-entry';
-const NEW_ITEM_FORM_INPUT_IDENTIFIER_BUDGET = '.js-trip-list-entry-budget';
-const NEW_ITEM_FORM_INPUT_IDENTIFIER_AIRFARE = ".js-trip-list-entry-airfare";
-const NEW_ITEM_FORM_INPUT_IDENTIFIER_LODGING = ".js-trip-list-entry-lodging";
-const ITEM_AMOUNT_LEFT_IDENTIFIER = '.js-budget-calc';
-const ITEM_DELETE_IDENTIFIER = '.js-item-delete';
-const ITEM_EDIT_IDENTIFIER = '.js-item-edit';
-
 function calculateAmountLeft(item) {
     const budget = item.budget;
     const expenses = parseInt(item.airfare) + parseInt(item.lodging);
     const amountLeft = budget - expenses;
-
+    console.log(amountLeft);
     return amountLeft;
 }
 
 function generateItemElement(item, itemIndex, template) {
-    template.find(ITEM_DESTINATION_IDENTIFIER).attr("value", item.destination);
-    template.find(ITEM_BUDGET_IDENTIFIER).attr("value", item.budget);
-    template.find(ITEM_AIRFARE_IDENTIFIER).attr("value", item.airfare);
-    template.find(ITEM_LODGING_IDENTIFIER).attr("value", item.lodging);
+    template.find('.js-trip-item').attr("value", item.destination);
+    template.find('.js-trip-item-budget').attr("value", item.budget);
+    template.find('.js-trip-item-airfare').attr("value", item.airfare);
+    template.find('.js-trip-item-lodging').attr("value", item.lodging);
     const amt_left = calculateAmountLeft(item);
-    template.find(ITEM_AMOUNT_LEFT_IDENTIFIER).text(amt_left);
-    template.find('.js-item-index-element').attr(ITEM_INDEX_ATTRIBUTE, itemIndex);
+    template.find('.js-budget-calc').text(amt_left);
+    template.find('.js-item-index-element').attr('data-item-index', itemIndex);
     return template.html();
 }
 
 function generateTripItemsString(tripList) {
     console.log("Generating trip list element");
     const items = tripList.map(function (item, index) {
-        const template = $(ITEM_TEMPLATE_IDENTIFIER).clone();
+        const template = $('#list-item-template').clone();
         return generateItemElement(item, index, template);
     });
     return items.join("");
@@ -91,7 +73,7 @@ function renderTripList() {
     // generate HTML for the list
     const tripListItemsString = generateTripItemsString(STORE);
     // insert that HTML into the DOM
-    $(TRIP_LIST_ELEMENT_IDENTIFIER).html(tripListItemsString);
+    $('.js-trip-list').html(tripListItemsString);
 
 }
 
@@ -102,14 +84,14 @@ function addItemToTripList(itemDestination, itemBudget, itemAirfare, itemLodging
 
 
 function handleNewItemSubmit() {
-    $(NEW_ITEM_FORM_IDENTIFIER).submit(function (event) {
+    $('#js-trip-list-form').submit(function (event) {
         event.preventDefault();
         console.log('`handleNewItemSubmit` ran');
 
-        const newItemElement = $(NEW_ITEM_FORM_INPUT_IDENTIFIER);
-        const newItemElementBudget = $(NEW_ITEM_FORM_INPUT_IDENTIFIER_BUDGET);
-        const newItemElementAirfare = $(NEW_ITEM_FORM_INPUT_IDENTIFIER_AIRFARE);
-        const newItemElementLodging = $(NEW_ITEM_FORM_INPUT_IDENTIFIER_LODGING);
+        const newItemElement = $('.js-trip-list-entry');
+        const newItemElementBudget = $('.js-trip-list-entry-budget');
+        const newItemElementAirfare = $( ".js-trip-list-entry-airfare");
+        const newItemElementLodging = $('.js-trip-list-entry-lodging');
         const newItemDestination = newItemElement.val();
         const newItemBudget = newItemElementBudget.val();
         const newItemAirfare = newItemElementAirfare.val();
@@ -125,15 +107,14 @@ function handleNewItemSubmit() {
     });
 }
 
-function getItemIndexFromElement(item, itemIndex) {
+function getItemIndexFromElement(item) {
     debugger;
     const itemIndexString = $(item)
         .closest('.js-item-index-element')
-        .attr('data-item-index', itemIndex);
-    console.log('itemIndex ' + itemIndex);
-    console.log('pareseInt: ', parseInt(itemIndexString, 10));
-    return parseInt(itemIndexString, 10);
-    
+        .attr('data-item-index');
+    console.log(itemIndexString);
+    console.log('parseInt: ', parseInt(itemIndexString, 10));
+    return parseInt(itemIndexString, 10);  
 }
 
 function deleteClickedItem(itemIndex) {
@@ -141,9 +122,8 @@ function deleteClickedItem(itemIndex) {
     STORE.splice(itemIndex, 1);
 }
 
-
 function handleDeleteItemClicked() {
-    $(TRIP_LIST_ELEMENT_IDENTIFIER).on('click', ITEM_DELETE_IDENTIFIER, function (event) {
+    $('.js-trip-list').on('click', 'js-item-delete', function (event) {
         console.log('`handleDeleteItemClicked` ran');
         const itemIndex = getItemIndexFromElement(event.currentTarget);
         deleteClickedItem(itemIndex);
@@ -151,24 +131,31 @@ function handleDeleteItemClicked() {
     });
 }
 
-function editClickedItem(item, itemIndex) {
+function editClickedItem(itemIndex) {
     console.log('Editing item at index ' + itemIndex);
     //get the user's new input
     var newDestination = $('.js-trip-item').val();
+    console.log(newDestination);
     var newBudget = $('.js-trip-item-budget').val();
     var newAirfare = $('.js-trip-item-airfare').val();
     var newLodging = $('.js-trip-item-lodging').val();
     
     //change appropriate entry in STORE
-    //STORE[itemIndex].destination = newDestination;
+    STORE[itemIndex].destination = newDestination;
+    STORE[itemIndex].budget = newBudget;
+    STORE[itemIndex].costs[0].value = newAirfare;
+    STORE[itemIndex].costs[1].value = newLodging;
+
+    renderTripList();
+
+    console.log(STORE[itemIndex]);
 }
 
 function handleEditItemClicked() {
-    console.log('handleEditItemClicked ran');
-    $('#js-saved-trips').on('submit', ITEM_EDIT_IDENTIFIER, function (event) {
-        console.log('handleEditItem ran');
-        const itemIndex = getItemIndexFromElement(event.currentTarget);
-        console.log(itemIndex);
+    $('.js-saved-trips').on('submit', /*'.js-item-edit',*/ function (event) {
+        console.log('handleEditItemClicked ran');
+        var itemIndex = $(this).children().attr("data-item-index");
+       
         editClickedItem(itemIndex);
         renderTripList();
     });

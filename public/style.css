@@ -20,7 +20,7 @@ ul {
     width: 90%;
     margin: 0 auto;
 }
-.saved-trips {
+#saved-trips {
     margin-top: 15px;
     border: 2px solid black;
     border-radius: 6px;
@@ -43,12 +43,4 @@ ul {
 .trip-item-controls {
     width: 30%;
     display: inline-block;
-}
-
-.amt-left-neg {
-    color: red;
-}
-
-.amt-left-pos {
-    color: green;
 }

@@ -107,7 +107,6 @@ function handleNewItemSubmit() {
 
 //for PUT and DELETE, this identifies indexes
 function getItemIndexFromElement(item) {
-    debugger;
     const itemIndexString = $(item)
         .closest('.js-item-index-element')
         .attr('data-item-index');
@@ -124,7 +123,7 @@ function deleteClickedItem(itemIndex) {
 
 //handler for delete button
 function handleDeleteItemClicked() {
-    $('.js-trip-list').on('click', 'js-item-delete', function (event) {
+    $('.js-item-delete').on('click', function (event) {
         console.log('`handleDeleteItemClicked` ran');
         const itemIndex = getItemIndexFromElement(event.currentTarget);
         deleteClickedItem(itemIndex);
@@ -139,7 +138,7 @@ function handleDeleteItemClicked() {
 function editClickedItem({itemIndex, newAirfare, newDestination, newBudget, newLodging}) {
     console.log('Editing item at index ' + itemIndex);
     //get the user's new input
-    debugger;
+
     
     //change appropriate entry in STORE
     STORE[itemIndex].destination = newDestination;

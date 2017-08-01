@@ -167,9 +167,6 @@ function handleEditItemClicked() {
     });
 }
 
-//component driven architecture
-//
-
 //this function fires all other necessary functions
 function render() {
     renderTripList();

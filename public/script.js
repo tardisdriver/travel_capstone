@@ -1,23 +1,4 @@
-const STORE = [
-    {
-        destination: "Greece",
-        budget: 4000,
-        costs:
-        [
-            { name: "airfare", value: 1000 },
-            { name: "lodging", value: 900 }
-        ],
-    },
-    {
-        destination: "Australia",
-        budget: 5000,
-        costs:
-        [
-            { name: "airfare", value: 1300 },
-            { name: "lodging", value: 1000 }
-        ],
-    }
-];
+const STORE = [];
 
 function getter(trip, name) {
         const findValue = item => item.name == name;
@@ -168,6 +149,8 @@ function handleEditItemClicked() {
 }
 
 //this function fires all other necessary functions
+
+//call promise first, getTrips, call .then and then render
 function render() {
     renderTripList();
     handleNewItemSubmit();
@@ -175,4 +158,18 @@ function render() {
     handleEditItemClicked();
 }
 
-$(render);
+$(function() {
+    getTrips()
+        .then((trips) => 
+            trips.forEach(trip => {
+              STORE.push(trip)  
+            })
+        )
+        .then(render)
+});
+
+
+//https://github.com/sretundijr/second-capstone-bill-tracker/blob/master/src/app/create-house.js#L222
+
+
+//https://github.com/sretundijr/second-capstone-bill-tracker/blob/master/src/app/create-house.js#L128

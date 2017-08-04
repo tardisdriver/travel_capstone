@@ -1,14 +1,19 @@
 const localObj = 'localObj';
 
 const retrieveFromLocal = () => {
-    return JSON.parse(localStorage.getItem(localObj));
+    console.log('retrieveFromLocal ran');
+    return JSON.parse(localStorage.getItem('localObj'));
 }
 
 const saveToLocal = (obj) => {
-    localStorage.setItem(localObj, JSON.stringify(obj));
+    console.log('saveToLocal ran');
+    console.log('obj from saveToLocal', obj);
+    localStorage.setItem('localObj', JSON.stringify(obj));
+    console.log(localStorage);
 }
 
 const getTrips = () => {
+    console.log('getTrips ran');
     const demoTrips = [
     {
         destination: "Greece",
@@ -29,35 +34,29 @@ const getTrips = () => {
         ],
     }
 ];
-    return Promise.resolve(retrieveFromLocal() || demoTrips);
+    return Promise.resolve(/*retrieveFromLocal() ||*/ demoTrips);
 }
 
 const saveTrips = (obj) => {
+    console.log('saveTrips ran');
+    console.log(obj);
     saveToLocal(obj);
     return Promise.resolve();
 }
 
-const editTrip = (destination, budget, airfare, lodging, index) => {
+const editTrip = (trips) => {
+    console.log('editTrip ran');
     const retrieve = retrieveFromLocal();
-   
+    console.log(retrieve);
+    console.log(trips);
     
-    saveToLocal(retrieve);
-    return Promise.resolve(retrieve.destination)
+    //saveToLocal(retrieve);
+   // return Promise.resolve(retrieve.destination)
 }
 
 const removeTrip = () => {
+    console.log('removeTrip ran');
     localStorage.removeItem(localObj);
 }
 
-const createDemo = () => {
-    const obj = {
-        destination: trip[0].destination,
-        budget: trip[0].budget,
-        //do I need the getter function here?
-        airfare: trip[0].costs.airfare,
-        lodging: trip[0].conts.lodging
-    };
-    saveTrips(obj);
-    return obj;
-}
 

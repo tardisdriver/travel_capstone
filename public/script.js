@@ -1,4 +1,6 @@
-const STORE = [];
+const STORE = {
+    trips: []
+};
 
 function getter(trip, name) {
         const findValue = item => item.name == name;
@@ -11,7 +13,6 @@ function calculateAmountLeft(item) {
     const budget = item.budget;
     const expenses = parseInt(getter(item, "airfare")) + parseInt(getter(item, "lodging"));
     const amountLeft = budget - expenses;
-    console.log(amountLeft);
     return amountLeft;
 }
 
@@ -43,7 +44,7 @@ function generateTripItemsString(tripList) {
 function renderTripList(index) {
     console.log('`renderTripList` ran');
     // generate HTML for the list
-    const tripListItemsString = generateTripItemsString(STORE);
+    const tripListItemsString = generateTripItemsString(STORE.trips);
     // insert that HTML into the DOM
     if (index != undefined) {
         var insertion = `#js-trip-info-${index}`;
@@ -58,7 +59,7 @@ function renderTripList(index) {
 //pushes a new trip to the list
 function addItemToTripList(itemDestination, itemBudget, itemAirfare, itemLodging) {
     console.log('Adding stuff to Trip list');
-    STORE.push({ destination: itemDestination, budget: itemBudget, costs: [{name: "airfare", value: itemAirfare}, {name: "lodging", value:itemLodging} ]});
+    STORE.trips.push({ destination: itemDestination, budget: itemBudget, costs: [{name: "airfare", value: itemAirfare}, {name: "lodging", value:itemLodging} ]});
 }
 
 //handles user input for adding a new trip
@@ -99,7 +100,7 @@ function getItemIndexFromElement(item) {
 //removes selected item from the STORE
 function deleteClickedItem(itemIndex) {
     console.log("Deleting li for item at index " + itemIndex);
-    STORE.splice(itemIndex, 1);
+    STORE.trips.splice(itemIndex, 1);
 }
 
 //handler for delete button
@@ -118,14 +119,14 @@ function handleDeleteItemClicked() {
 //fetches new user input and places it in the STORE
 function editClickedItem({itemIndex, newAirfare, newDestination, newBudget, newLodging}) {
     console.log('Editing item at index ' + itemIndex);
-    //get the user's new input
-
-    
+   
     //change appropriate entry in STORE
-    STORE[itemIndex].destination = newDestination;
-    STORE[itemIndex].budget = newBudget;
-    STORE[itemIndex].costs[0].value = newAirfare;
-    STORE[itemIndex].costs[1].value = newLodging;
+    STORE.trips[itemIndex].destination = newDestination;
+    STORE.trips[itemIndex].budget = newBudget;
+    STORE.trips[itemIndex].costs[0].value = newAirfare;
+    STORE.trips[itemIndex].costs[1].value = newLodging;
+
+    editTrip(STORE.trips);
 
     render();
 }
@@ -134,6 +135,7 @@ function editClickedItem({itemIndex, newAirfare, newDestination, newBudget, newL
 function handleEditItemClicked() {
 
     //event.currentTarget.tripairfare.value instead of jquery, or wrap it in jquery
+    //get the user's new input
     $('.js-saved-trips').on('submit', function (event) {
         console.log('handleEditItemClicked ran');
         event.preventDefault();
@@ -148,9 +150,11 @@ function handleEditItemClicked() {
     });
 }
 
+
+
 //this function fires all other necessary functions
 
-//call promise first, getTrips, call .then and then render
+
 function render() {
     renderTripList();
     handleNewItemSubmit();
@@ -162,8 +166,9 @@ $(function() {
     getTrips()
         .then((trips) => 
             trips.forEach(trip => {
-              STORE.push(trip)  
-            })
+              STORE.trips.push(trip)  
+            }),
+            saveTrips(STORE)
         )
         .then(render)
 });

@@ -1,35 +1,48 @@
 const localObj = 'localObj';
 
 const retrieveFromLocal = () => {
-    return JSON.parse(localStorage.getItem(localObj));
+    const data = localStorage.getItem(localObj);
+    const demoTrips = [
+        {
+            destination: "Greece",
+            budget: 4000,
+            costs:
+            [
+                { name: "airfare", value: 1000 },
+                { name: "lodging", value: 900 }
+            ],
+        },
+        {
+            destination: "Australia",
+            budget: 5000,
+            costs:
+            [
+                { name: "airfare", value: 1300 },
+                { name: "lodging", value: 1000 }
+            ],
+        }
+    ];
+    if (data) {
+        return JSON.parse(localStorage.getItem(localObj));
+    } else {
+        return demoTrips;
+    }
 }
 
 const saveToLocal = (obj) => {
     localStorage.setItem(localObj, JSON.stringify(obj));
 }
 
+const addTrip = (obj) => {
+    return getTrips()
+        .then((currentTrips) => {
+            currentTrips.push(obj)
+            return saveTrips(currentTrips)
+        })
+}
+
 const getTrips = () => {
-    const demoTrips = [
-    {
-        destination: "Greece",
-        budget: 4000,
-        costs:
-        [
-            { name: "airfare", value: 1000 },
-            { name: "lodging", value: 900 }
-        ],
-    },
-    {
-        destination: "Australia",
-        budget: 5000,
-        costs:
-        [
-            { name: "airfare", value: 1300 },
-            { name: "lodging", value: 1000 }
-        ],
-    }
-];
-    return Promise.resolve(retrieveFromLocal() || demoTrips);
+    return Promise.resolve(retrieveFromLocal());
 }
 
 const saveTrips = (obj) => {
@@ -37,27 +50,20 @@ const saveTrips = (obj) => {
     return Promise.resolve();
 }
 
-const editTrip = (destination, budget, airfare, lodging, index) => {
-    const retrieve = retrieveFromLocal();
-   
-    
-    saveToLocal(retrieve);
-    return Promise.resolve(retrieve.destination)
+const editTrip = (updatedTrip, itemIndex) => {
+    itemIndex = parseInt(itemIndex);
+    return getTrips()
+        .then((currentTrips) => {
+            currentTrips[itemIndex] = updatedTrip;
+            return saveTrips(currentTrips);
+        })
 }
 
-const removeTrip = () => {
-    localStorage.removeItem(localObj);
-}
-
-const createDemo = () => {
-    const obj = {
-        destination: trip[0].destination,
-        budget: trip[0].budget,
-        //do I need the getter function here?
-        airfare: trip[0].costs.airfare,
-        lodging: trip[0].conts.lodging
-    };
-    saveTrips(obj);
-    return obj;
+const deleteTrip = (itemIndex) => {
+    return getTrips()
+        .then((trips) => {
+            trips.splice(itemIndex, 1)
+            return saveTrips(trips)
+        })
 }
 

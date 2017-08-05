@@ -20,27 +20,32 @@ ul {
     width: 90%;
     margin: 0 auto;
 }
-#saved-trips {
+
+#budget-calc {
+    font-weight: bold;
+}
+.saved-trips {
     margin-top: 15px;
+    margin-bottom: 20px;
     border: 2px solid black;
     border-radius: 6px;
-    padding: 0px 20px 15px 25px;
+    padding: 0px 20px 30px 25px;
 }
 
 .saved-item {
     display: inline-block;
     width: 20%;
-    text-align: left;
-    
+    text-align: left;  
 }
 
 .saved-item + .trip-item {
     width: 25%;
-    margin: 0 5% 0 4%;
-   
+    margin: 0 5% 0 4%; 
 }
 
 .trip-item-controls {
-    width: 30%;
+    width: 45%;
     display: inline-block;
+    padding: 5px 0px 30px 0px;
+    text-align: right;
 }

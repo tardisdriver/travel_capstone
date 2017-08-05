@@ -1,9 +1,9 @@
 const STORE = [];
 
 function getter(trip, name) {
-        const findValue = item => item.name == name;
-        const cost = trip.costs.find(findValue);
-        return cost.value;
+    const findValue = item => item.name == name;
+    const cost = trip.costs.find(findValue);
+    return cost.value;
 }
 
 //calculates the amount left to spend
@@ -11,7 +11,6 @@ function calculateAmountLeft(item) {
     const budget = item.budget;
     const expenses = parseInt(getter(item, "airfare")) + parseInt(getter(item, "lodging"));
     const amountLeft = budget - expenses;
-    console.log(amountLeft);
     return amountLeft;
 }
 
@@ -33,15 +32,15 @@ function generateItemElement(item, itemIndex, template) {
 function generateTripItemsString(tripList) {
     console.log("Generating trip list element");
     const items = tripList.map(function (item, index) {
-       const template = $('#list-item-template').clone();
-       return generateItemElement(item, index, template);
- });
+        const template = $('#list-item-template').clone();
+        return generateItemElement(item, index, template);
+    });
     return items.join("");
 }
 
 //creates the list of saved trips in html
 function renderTripList(index) {
-    console.log('`renderTripList` ran');
+    console.log('renderTripList ran');
     // generate HTML for the list
     const tripListItemsString = generateTripItemsString(STORE);
     // insert that HTML into the DOM
@@ -58,7 +57,9 @@ function renderTripList(index) {
 //pushes a new trip to the list
 function addItemToTripList(itemDestination, itemBudget, itemAirfare, itemLodging) {
     console.log('Adding stuff to Trip list');
-    STORE.push({ destination: itemDestination, budget: itemBudget, costs: [{name: "airfare", value: itemAirfare}, {name: "lodging", value:itemLodging} ]});
+    const newTrip = { destination: itemDestination, budget: itemBudget, costs: [{ name: "airfare", value: itemAirfare }, { name: "lodging", value: itemLodging }] };
+    STORE.push(newTrip);
+    addTrip(newTrip);
 }
 
 //handles user input for adding a new trip
@@ -69,7 +70,7 @@ function handleNewItemSubmit() {
 
         const newItemElement = $('.js-trip-list-entry');
         const newItemElementBudget = $('.js-trip-list-entry-budget');
-        const newItemElementAirfare = $( ".js-trip-list-entry-airfare");
+        const newItemElementAirfare = $(".js-trip-list-entry-airfare");
         const newItemElementLodging = $('.js-trip-list-entry-lodging');
         const newItemDestination = newItemElement.val();
         const newItemBudget = newItemElementBudget.val();
@@ -91,7 +92,7 @@ function getItemIndexFromElement(item) {
     const itemIndexString = $(item)
         .closest('.js-item-index-element')
         .attr('data-item-index');
-    return parseInt(itemIndexString, 10);  
+    return parseInt(itemIndexString, 10);
 }
 
 //DELETE BEGIN
@@ -100,6 +101,7 @@ function getItemIndexFromElement(item) {
 function deleteClickedItem(itemIndex) {
     console.log("Deleting li for item at index " + itemIndex);
     STORE.splice(itemIndex, 1);
+    deleteTrip(itemIndex);
 }
 
 //handler for delete button
@@ -116,17 +118,16 @@ function handleDeleteItemClicked() {
 //PUT BEGIN
 
 //fetches new user input and places it in the STORE
-function editClickedItem({itemIndex, newAirfare, newDestination, newBudget, newLodging}) {
+function editClickedItem({ itemIndex, newAirfare, newDestination, newBudget, newLodging }) {
     console.log('Editing item at index ' + itemIndex);
-    //get the user's new input
 
-    
     //change appropriate entry in STORE
     STORE[itemIndex].destination = newDestination;
     STORE[itemIndex].budget = newBudget;
     STORE[itemIndex].costs[0].value = newAirfare;
     STORE[itemIndex].costs[1].value = newLodging;
 
+    editTrip(STORE[itemIndex], itemIndex);
     render();
 }
 
@@ -137,20 +138,19 @@ function handleEditItemClicked() {
     $('.js-saved-trips').on('submit', function (event) {
         console.log('handleEditItemClicked ran');
         event.preventDefault();
-        var itemIndex = $(this).children().attr("data-item-index");
-       var newAirfare = event.currentTarget.tripairfare.value;
-       var newDestination = event.currentTarget.tripdestination.value;
-       var newBudget = event.currentTarget.tripbudget.value;
-       var newLodging = event.currentTarget.triplodging.value;
+        var itemIndex = parseInt($(this).children().attr("data-item-index"));
+        var newAirfare = event.currentTarget.tripairfare.value;
+        var newDestination = event.currentTarget.tripdestination.value;
+        var newBudget = event.currentTarget.tripbudget.value;
+        var newLodging = event.currentTarget.triplodging.value;
 
-        editClickedItem({itemIndex, newAirfare, newDestination, newBudget, newLodging});
+        editClickedItem({ itemIndex, newAirfare, newDestination, newBudget, newLodging });
         //renderTripList(itemIndex);
     });
 }
 
 //this function fires all other necessary functions
 
-//call promise first, getTrips, call .then and then render
 function render() {
     renderTripList();
     handleNewItemSubmit();
@@ -158,18 +158,13 @@ function render() {
     handleEditItemClicked();
 }
 
-$(function() {
+$(function () {
     getTrips()
-        .then((trips) => 
+        .then((trips) =>
             trips.forEach(trip => {
-              STORE.push(trip)  
+                STORE.push(trip)
             })
         )
         .then(render)
 });
 
-
-//https://github.com/sretundijr/second-capstone-bill-tracker/blob/master/src/app/create-house.js#L222
-
-
-//https://github.com/sretundijr/second-capstone-bill-tracker/blob/master/src/app/create-house.js#L128

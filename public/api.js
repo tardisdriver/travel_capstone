@@ -1,10 +1,6 @@
 const localObj = 'localObj';
 
 const retrieveFromLocal = () => {
-<<<<<<< HEAD
-    console.log('retrieveFromLocal ran');
-    return JSON.parse(localStorage.getItem('localObj'));
-=======
     const data = localStorage.getItem(localObj);
     const demoTrips = [
         {
@@ -31,7 +27,6 @@ const retrieveFromLocal = () => {
     } else {
         return demoTrips;
     }
->>>>>>> api
 }
 
 const saveToLocal = (obj) => {
@@ -50,32 +45,7 @@ const addTrip = (obj) => {
 }
 
 const getTrips = () => {
-<<<<<<< HEAD
-    console.log('getTrips ran');
-    const demoTrips = [
-    {
-        destination: "Greece",
-        budget: 4000,
-        costs:
-        [
-            { name: "airfare", value: 1000 },
-            { name: "lodging", value: 900 }
-        ],
-    },
-    {
-        destination: "Australia",
-        budget: 5000,
-        costs:
-        [
-            { name: "airfare", value: 1300 },
-            { name: "lodging", value: 1000 }
-        ],
-    }
-];
-    return Promise.resolve(/*retrieveFromLocal() ||*/ demoTrips);
-=======
     return Promise.resolve(retrieveFromLocal());
->>>>>>> api
 }
 
 const saveTrips = (obj) => {
@@ -85,23 +55,6 @@ const saveTrips = (obj) => {
     return Promise.resolve();
 }
 
-<<<<<<< HEAD
-const editTrip = (trips) => {
-    console.log('editTrip ran');
-    const retrieve = retrieveFromLocal();
-    console.log(retrieve);
-    console.log(trips);
-    
-    //saveToLocal(retrieve);
-   // return Promise.resolve(retrieve.destination)
-}
-
-const removeTrip = () => {
-    console.log('removeTrip ran');
-    localStorage.removeItem(localObj);
-}
-
-=======
 const editTrip = (updatedTrip, itemIndex) => {
     itemIndex = parseInt(itemIndex);
     return getTrips()
@@ -118,5 +71,4 @@ const deleteTrip = (itemIndex) => {
             return saveTrips(trips)
         })
 }
->>>>>>> api
 

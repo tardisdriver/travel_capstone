@@ -15,6 +15,43 @@ function calculateAmountLeft(item) {
     return amountLeft;
 }
 
+//calculates progress bar amount
+/*function calculateSavingsProgress(item, savingsAmt) {
+    const currentBudget = item.budget;
+    const savings = parseFloat(Math.round(savingsAmt / currentBudget) * 100).toFixed(1);
+
+    return savings;
+}
+
+//adds total amount saved
+function calculateNewTotalSavings(itemIndex, addedSavings) {
+    console.log('calculateTotalSavings ran');
+    const currentSavings = STORE[itemIndex].savings;
+    const newTotal = parseInt(currentSavings) + parseInt(addedSavings);
+
+    STORE[itemIndex].savings = newTotal;
+    console.log('new STORE entry = ', STORE[itemIndex].savings);
+}
+
+//handles add to savings button
+function handleAddToSavings() {
+    $('.js-savings-button').on('click', function (event) {
+        console.log('handleAddToSavings clicked');
+        event.preventDefault();
+
+        const itemIndex = getItemIndexFromElement(event.currentTarget);
+        const addedAmt = $('.js-add-to-savings').val();
+        const displayNewAmt = calculateNewTotalSavings(itemIndex, addedAmt);
+
+        //update js-current-savings with new savings amount
+        console.log($(event.currentTarget).closest('.js-current-savings').text());
+        $(event.currentTarget).closest('.js-current-savings').text(displayNewAmt);
+
+        $('.js-add-to-savings').val('');
+
+    });
+}*/
+
 //uses the html template to generate divs for each saved trip
 function generateItemElement(item, itemIndex, template) {
     const form_id = `js-trip-info-${itemIndex}`;
@@ -26,6 +63,8 @@ function generateItemElement(item, itemIndex, template) {
     const amt_left = calculateAmountLeft(item);
     template.find('.js-budget-calc').text(amt_left);
     template.find('.js-item-index-element').attr('data-item-index', itemIndex);
+    template.find('.js-current-savings').text(item.savings);
+    template.find('.js-budget-total').text(item.budget);
     return template.html();
 }
 
@@ -157,6 +196,7 @@ function render() {
     handleNewItemSubmit();
     handleDeleteItemClicked();
     handleEditItemClicked();
+    //handleAddToSavings();
 }
 
 $(function () {

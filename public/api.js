@@ -11,6 +11,7 @@ const retrieveFromLocal = () => {
                 { name: "airfare", value: 1000 },
                 { name: "lodging", value: 900 }
             ],
+            savings: 450
         },
         {
             destination: "Australia",
@@ -20,6 +21,7 @@ const retrieveFromLocal = () => {
                 { name: "airfare", value: 1300 },
                 { name: "lodging", value: 1000 }
             ],
+            savings: 1250
         }
     ];
     if (data) {
@@ -31,9 +33,7 @@ const retrieveFromLocal = () => {
 
 const saveToLocal = (obj) => {
     console.log('saveToLocal ran');
-    console.log('obj from saveToLocal', obj);
     localStorage.setItem('localObj', JSON.stringify(obj));
-    console.log(localStorage);
 }
 
 const addTrip = (obj) => {
@@ -50,7 +50,6 @@ const getTrips = () => {
 
 const saveTrips = (obj) => {
     console.log('saveTrips ran');
-    console.log(obj);
     saveToLocal(obj);
     return Promise.resolve();
 }

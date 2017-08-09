@@ -1,17 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const { DATABASE_URL, PORT } = require('./config');
 const { Trip } = require('./models');
 
 const app = express();
+app.use(bodyParser.json());
 
-mongoose.Promise = global.Promise;
+
 
 app.get('/trips', (req, res) => {
     Trip
         .find()
-        .exec()
         .then(trips => {
             res.json(
                 {
@@ -25,22 +26,14 @@ app.get('/trips', (req, res) => {
 });
 
 app.post('/trips', (req, res) => {
-    const requiredFields = ['destination', 'content', 'author'];
-    for (let i = 0; i < requiredFields.length; i++) {
-        const field = requiredFields[i];
-
-        if (!(field in req.body)) {
-            const message = `Missing \`${field}\` in request body`
-            console.error(message);
-            return res.status(400).send(message);
-        }
-    }
-
     Trip
         .create({
             destination: req.body.destination,
             budget: req.body.budget,
-            costs: req.body.costs
+            costs: {
+                airfare: req.body.costs.airfare,
+                lodging: req.body.costs.lodging
+            }
         })
         .then(tripPost => res.status(201).json(tripPost.apiRepr()))
         .catch(err => {
@@ -48,6 +41,7 @@ app.post('/trips', (req, res) => {
             res.status(500).json({ error: 'Something went wrong adding your trip' });
         });
 })
+
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {
     return new Promise((resolve, reject) => {

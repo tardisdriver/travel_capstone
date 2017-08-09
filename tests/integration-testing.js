@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const should = chai.should();
 
 const { Trip } = require('../models');
-const { app, runServer, closeServer } = require('../config');
+const { TEST_DATABASE_URL } = require('../config');
+const { app, runServer, closeServer } = require('../server');
 
 chai.use(chaiHttp);
 
@@ -17,114 +18,71 @@ function seedTripData() {
     for (let i = 1; i <= 10; i++) {
         seedData.push(generateTripData());
     }
-    return
+    return Trip.insertMany(seedData);
 }
 
 function generateTripData() {
     return {
-        destination: faker.address.country,
-        budget: faker.random.number,
+        destination: faker.address.country(),
+        budget: faker.random.number(),
         costs: {
-            airfare: faker.random.number,
-            lodging: faker.random.number
+            airfare: faker.random.number(),
+            lodging: faker.random.number()
         }
     }
 }
 
 function tearDownDb() {
-    console.warn('Deleting Database');
+    console.warn('Deleting database');
     return mongoose.connection.dropDatabase();
 }
 
 describe('Travel Buddy API', function () {
+
     before(function () {
-        return runServer(DATABASE_URL);
+        return runServer(TEST_DATABASE_URL);
     });
+
     beforeEach(function () {
         return seedTripData();
     });
+
     afterEach(function () {
         return tearDownDb();
     });
+
     after(function () {
         return closeServer();
     })
-})
 
-//GET TEST
+    describe('GET endpoint', function () {
 
-describe('GET endpoint', function () {
-    it('should return all trips', function () {
-        let tri;
-        return chai.request(app)
-            .get('/trips')
-            .then(function (_tri) {
-                tri = _tri;
-                tri.should.have.status(200);
-                tri.body.trips.should.have.length.of.at.least(1);
-                return Trip.count();
-            })
-            .then(function (count) {
-                tri.body.trips.should.have.length.of(count);
-            });
+        it('should return all existing trips', function () {
+
+            let tri;
+            return chai.request(app)
+                .get('/trips')
+                .then(function (_tri) {
+                    tri = _tri;
+                    tri.should.have.status(200);
+                });
+        });
+    });
+
+    describe('POST endpoint', function () {
+
+        it('should add a new trip', function () {
+            const newTrip = generateTripData();
+            console.log(`this is the new trip: Going to ${newTrip.destination} on a budget of ${newTrip.budget}, airfare cost of ${newTrip.costs.airfare}, and lodging cost of ${newTrip.costs.lodging}`);
+
+            return chai.request(app)
+                .post('/trips')
+                .send(newTrip)
+                .then(function (res) {
+                    res.should.have.status(201);
+                    res.should.be.json;
+                    res.should.be.a('object');
+                });
+        });
     });
 });
-
-describe('POST endpoint', function () {
-    it('should add a trip when a new one is submitted', function () {
-        const newTrip = generateTripData();
-        console.log(`this is the new Trip: Going to ${newTrip.destination}, with a budget of ${newTrip.budget}`);
-
-        return chai.request(app)
-            .post('/trips')
-            .send(newTrip)
-            .then(function (res) {
-                res.should.have.status(201);
-                res.should.be.json;
-            });
-    });
-});
-
-
-describe('PUT endpoint', function () {
-    it('should update appropriate fields when edited', function () {
-        const updateData = {
-            destination: "Lake Titicaca",
-            budget: "3300"
-        };
-
-        return Trip
-            .findOne()
-            .exec()
-            .then(function (trip) {
-                updateData.id = trip.id;
-                return chai.request(app)
-                    .put(`/trips/${trip.id}`)
-                    .send(updateData);
-            })
-            .then(function (res) {
-                res.should.have.status(201);
-                return Trip.findById(updateData.id).exec();
-            });
-    });
-});
-
-describe('DELETE endpoint', function () {
-    it('should remove a trip according to that trips id', function () {
-        let trip;
-
-        return Trip
-            .findOne()
-            .exec()
-            .then(function (_trip) {
-                trip = _trip;
-                return chai.request(app).delete(`/trips/${trip.id}`);
-            })
-            .then(function (res) {
-                res.should.have.status(204);
-                return Trip.findById(trip.id).exec();
-            });
-    });
-});
-
-

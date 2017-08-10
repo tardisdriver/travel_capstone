@@ -85,4 +85,44 @@ describe('Travel Buddy API', function () {
                 });
         });
     });
+
+    describe('PUT endpoint', function () {
+
+        it('should edit the appropriate entry with updated data and return 201', function () {
+            const updatedData = {
+                destination: "Lake Titicaca",
+                budget: "6000"
+            };
+
+            return Trip
+                .findOne()
+                .exec()
+                .then(function (trip) {
+                    updatedData.id = trip.id;
+                    return chai.request(app)
+                        .put(`/trips/${trip.id}`)
+                        .send(updatedData);
+                })
+                .then(function (res) {
+                    res.should.have.status(201);
+                });
+        });
+    });
+
+    describe('DELETE endpoint', function () {
+        it('should delete a trip by ID and return 204', function () {
+            let trip;
+
+            return Trip
+                .findOne()
+                .exec()
+                .then(function (_trip) {
+                    trip = _trip;
+                    return chai.request(app).delete(`/trips/${trip.id}`);
+                })
+                .then(function (res) {
+                    res.should.have.status(204);
+                });
+        });
+    });
 });

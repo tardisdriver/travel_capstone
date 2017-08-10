@@ -13,6 +13,7 @@ const tripSchema = mongoose.Schema({
 
 tripSchema.methods.apiRepr = function () {
     return {
+        id: this.id,
         destination: this.destination,
         budget: this.budget,
         costs: this.costs

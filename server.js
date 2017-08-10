@@ -6,6 +6,7 @@ const { DATABASE_URL, PORT } = require('./config');
 const { Trip } = require('./models');
 
 const app = express();
+app.use(express.static('public'));
 app.use(bodyParser.json());
 
 
@@ -40,7 +41,38 @@ app.post('/trips', (req, res) => {
             console.error(err);
             res.status(500).json({ error: 'Something went wrong adding your trip' });
         });
-})
+});
+
+app.put('/trips/:id', (req, res) => {
+    if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+        res.status(400).json({
+            error: 'Request path id and request body id values must match'
+        });
+    }
+    const updated = {};
+    const updateableFields = ['destination', 'budget', 'costs'];
+    updateableFields.forEach(field => {
+        if (field in req.body) {
+            updated[field] = req.body[field];
+        }
+    });
+
+    Trip
+        .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
+        .exec()
+        .then(updatedTrip => res.status(201).json(updatedTrip.apiRepr()))
+        .catch(err => res.status(500).json({ message: 'Something went wrong with your edit' }));
+});
+
+app.delete('/:id', (req, res) => {
+    Trips
+        .findByIdAndRemove(req.params.id)
+        .exec()
+        .then(() => {
+            console.log(`Deleted blog post with id \`${req.params.ID}\``);
+            res.status(204).end();
+        });
+});
 
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {

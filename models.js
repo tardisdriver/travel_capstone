@@ -5,10 +5,11 @@ mongoose.Promise = global.Promise;
 const tripSchema = mongoose.Schema({
     destination: { type: String },
     budget: { type: Number },
-    costs: [
-        { name: String },
-        { value: Number }
-    ],
+    costs:
+    {
+        airfare: Number,
+        lodging: Number
+    }
 });
 
 tripSchema.methods.apiRepr = function () {

@@ -59,17 +59,15 @@ app.put('/trips/:id', (req, res) => {
 
     Trip
         .findByIdAndUpdate(req.params.id, { $set: updated }, { new: true })
-        .exec()
         .then(updatedTrip => res.status(201).json(updatedTrip.apiRepr()))
         .catch(err => res.status(500).json({ message: 'Something went wrong with your edit' }));
 });
 
-app.delete('/:id', (req, res) => {
-    Trips
+app.delete('/trips/:id', (req, res) => {
+    Trip
         .findByIdAndRemove(req.params.id)
-        .exec()
         .then(() => {
-            console.log(`Deleted blog post with id \`${req.params.ID}\``);
+            console.log(`Deleted blog post with id \`${req.params.id}\``);
             res.status(204).end();
         });
 });

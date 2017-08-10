@@ -25,10 +25,12 @@ function generateTripData() {
     return {
         destination: faker.address.country(),
         budget: faker.random.number(),
-        costs: {
+        costs:
+        {
             airfare: faker.random.number(),
             lodging: faker.random.number()
         }
+
     }
 }
 
@@ -96,7 +98,6 @@ describe('Travel Buddy API', function () {
 
             return Trip
                 .findOne()
-                .exec()
                 .then(function (trip) {
                     updatedData.id = trip.id;
                     return chai.request(app)
@@ -115,10 +116,10 @@ describe('Travel Buddy API', function () {
 
             return Trip
                 .findOne()
-                .exec()
                 .then(function (_trip) {
+                    console.log(_trip);
                     trip = _trip;
-                    return chai.request(app).delete(`/trips/${trip.id}`);
+                    return chai.request(app).delete(`/trips/${trip._id}`);
                 })
                 .then(function (res) {
                     res.should.have.status(204);

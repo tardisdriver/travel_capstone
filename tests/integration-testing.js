@@ -117,7 +117,6 @@ describe('Travel Buddy API', function () {
             return Trip
                 .findOne()
                 .then(function (_trip) {
-                    console.log(_trip);
                     trip = _trip;
                     return chai.request(app).delete(`/trips/${trip._id}`);
                 })

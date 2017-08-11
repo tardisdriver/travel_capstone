@@ -9,17 +9,18 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-
-
-app.get('/trips', (req, res) => {
-    Trip
+function findTrips() {
+    return Trip
         .find()
         .then(trips => {
-            res.json(
-                {
-                    usertrips: trips.map(trip => trip.apiRepr())
-                })
-        })
+            return { trips: trips.map(trip => trip.apiRepr()) }
+        }
+        )
+}
+
+app.get('/trips', (req, res) => {
+    findTrips()
+        .then(data => res.json(data))
         .catch(err => {
             console.error(err);
             res.status(500).json({ error: 'something went wrong getting your trips' })

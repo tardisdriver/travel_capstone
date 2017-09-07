@@ -192,7 +192,7 @@ function handleEditItemClicked() {
         console.log('handleEditItemClicked ran');
         event.preventDefault();
         var itemIndex = parseInt($(this).children().attr("data-item-index"));
-        var newDate = event.currentTarget.tripdate.value;
+        var newDate = event.currentTarget.date.value;
         var newAirfare = event.currentTarget.tripairfare.value;
         var newDestination = event.currentTarget.tripdestination.value;
         var newBudget = event.currentTarget.tripbudget.value;
@@ -211,6 +211,7 @@ function render() {
     handleNewItemSubmit();
     handleDeleteItemClicked();
     handleEditItemClicked();
+    datePicker();
     //handleAddToSavings();
 }
 

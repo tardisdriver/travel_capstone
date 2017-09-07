@@ -4,6 +4,7 @@ const retrieveFromLocal = () => {
     const data = localStorage.getItem(localObj);
     const demoTrips = [
         {
+            date: "2019/11/23",
             destination: "Greece",
             budget: 4000,
             costs:
@@ -14,6 +15,7 @@ const retrieveFromLocal = () => {
             savings: 450
         },
         {
+            date: "2018/04/23",
             destination: "Australia",
             budget: 5000,
             costs:

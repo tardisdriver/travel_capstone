@@ -52,11 +52,24 @@ function handleAddToSavings() {
     });
 }*/
 
+function retrieveUserName() {
+    $(".js-username-submit").on("click", function (event) {
+        console.log('retrieveuserName clicked');
+        event.preventDefault();
+        const username = $('.js-username').val();
+        console.log(username);
+    });
+}
+
 //uses the html template to generate divs for each saved trip
 function generateItemElement(item, itemIndex, template) {
     const form_id = `js-trip-info-${itemIndex}`;
     template.find('.js-saved-trips').attr("id", form_id);
-    template.find('.js-trip-item').attr("value", item.destination);
+    // const formattedDate = moment(item.date).format('YYYY/MM/DD');//('YYYY-MM-DD');
+    console.log(item.date);
+
+    template.find('.js-trip-item-date').attr("value", item.date);
+    template.find('.js-trip-item-destination').attr("value", item.destination);
     template.find('.js-trip-item-budget').attr("value", item.budget);
     template.find('.js-trip-item-airfare').attr("value", getter(item, "airfare"));
     template.find('.js-trip-item-lodging').attr("value", getter(item, "lodging"));
@@ -95,34 +108,33 @@ function renderTripList(index) {
 // BEGIN PUSH CODE
 
 //pushes a new trip to the list
-function addItemToTripList(itemDestination, itemBudget, itemAirfare, itemLodging) {
+function addItemToTripList(itemDate, itemDestination, itemBudget, itemAirfare, itemLodging) {
     console.log('Adding stuff to Trip list');
-    const newTrip = { destination: itemDestination, budget: itemBudget, costs: [{ name: "airfare", value: itemAirfare }, { name: "lodging", value: itemLodging }] };
+    const newTrip = { date: itemDate, destination: itemDestination, budget: itemBudget, costs: [{ name: "airfare", value: itemAirfare }, { name: "lodging", value: itemLodging }] };
+    console.log(newTrip);
     STORE.push(newTrip);
     addTrip(newTrip);
 }
 
+function getAndClear(selector) {
+    const itemElement = $(selector);
+    const itemElementValue = itemElement.val();
+    itemElement.val('');
+    return itemElementValue;
+}
 //handles user input for adding a new trip
 function handleNewItemSubmit() {
     $('#js-trip-list-form').submit(function (event) {
         event.preventDefault();
         console.log('`handleNewItemSubmit` ran');
 
-        const newItemElement = $('.js-trip-list-entry');
-        const newItemElementBudget = $('.js-trip-list-entry-budget');
-        const newItemElementAirfare = $(".js-trip-list-entry-airfare");
-        const newItemElementLodging = $('.js-trip-list-entry-lodging');
-        const newItemDestination = newItemElement.val();
-        const newItemBudget = newItemElementBudget.val();
-        const newItemAirfare = newItemElementAirfare.val();
-        const newItemLodging = newItemElementLodging.val();
+        const newItemDate = getAndClear('.js-trip-list-entry-date');
+        const newItemElementDestination = getAndClear('.js-trip-list-entry-destination');
+        const newItemElementBudget = getAndClear('.js-trip-list-entry-budget');
+        const newItemElementAirfare = getAndClear(".js-trip-list-entry-airfare");
+        const newItemElementLodging = getAndClear('.js-trip-list-entry-lodging');
 
-        newItemElement.val('');
-        newItemElementBudget.val('');
-        newItemElementAirfare.val('');
-        newItemElementLodging.val('');
-
-        addItemToTripList(newItemDestination, newItemBudget, newItemAirfare, newItemLodging);
+        addItemToTripList(newItemDate, newItemElementDestination, newItemElementBudget, newItemElementAirfare, newItemElementLodging);
         render();
     });
 }
@@ -158,10 +170,11 @@ function handleDeleteItemClicked() {
 //PUT BEGIN
 
 //fetches new user input and places it in the STORE
-function editClickedItem({ itemIndex, newAirfare, newDestination, newBudget, newLodging }) {
+function editClickedItem({ itemIndex, newDate, newAirfare, newDestination, newBudget, newLodging }) {
     console.log('Editing item at index ' + itemIndex);
 
     //change appropriate entry in STORE
+    STORE[itemIndex].date = newDate;
     STORE[itemIndex].destination = newDestination;
     STORE[itemIndex].budget = newBudget;
     STORE[itemIndex].costs[0].value = newAirfare;
@@ -179,12 +192,13 @@ function handleEditItemClicked() {
         console.log('handleEditItemClicked ran');
         event.preventDefault();
         var itemIndex = parseInt($(this).children().attr("data-item-index"));
+        var newDate = event.currentTarget.tripdate.value;
         var newAirfare = event.currentTarget.tripairfare.value;
         var newDestination = event.currentTarget.tripdestination.value;
         var newBudget = event.currentTarget.tripbudget.value;
         var newLodging = event.currentTarget.triplodging.value;
 
-        editClickedItem({ itemIndex, newAirfare, newDestination, newBudget, newLodging });
+        editClickedItem({ itemIndex, newDate, newAirfare, newDestination, newBudget, newLodging });
         //renderTripList(itemIndex);
     });
 }
@@ -192,6 +206,7 @@ function handleEditItemClicked() {
 //this function fires all other necessary functions
 
 function render() {
+    retrieveUserName();
     renderTripList();
     handleNewItemSubmit();
     handleDeleteItemClicked();

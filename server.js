@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const { DATABASE_URL, PORT } = require('./config');
+
+const { DATABASE_URL, PORT } = require('./config'); // {DATABASE: db, PORT: port}
 const { Trip } = require('./models');
 
 const app = express();
@@ -27,9 +28,12 @@ app.get('/trips', (req, res) => {
         });
 });
 
+
+
 app.post('/trips', (req, res) => {
     Trip
         .create({
+            date: req.body.date,
             destination: req.body.destination,
             budget: req.body.budget,
             costs: {
@@ -51,7 +55,7 @@ app.put('/trips/:id', (req, res) => {
         });
     }
     const updated = {};
-    const updateableFields = ['destination', 'budget', 'costs'];
+    const updateableFields = ['date', 'destination', 'budget', 'costs'];
     updateableFields.forEach(field => {
         if (field in req.body) {
             updated[field] = req.body[field];

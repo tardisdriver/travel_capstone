@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css">
 </head>
 
 <body>
+
     <div class="container">
         <header>
             <h1>Travel Buddy</h1>
@@ -18,10 +20,16 @@
             <p class="site-descr">Travel Buddy is your travel budgeting friend. Add destinations you'd like to visit. You can come back and edit
                 your trips at any time.</p>
         </section>
+        <span>To save your trips, enter a username: </span> <input type="text" name="username" class="js-username">
+        <button class="js-username-submit btn btn-primary" type="button">Save</button>
         <form id="js-trip-list-form" class="add-form">
             <h3>Add Trip</h3>
             <br>
-            <span>Destination: </span><input type="text" name="trip-list-entry" class="js-trip-list-entry form-control"><br>
+            <span>Date of Trip: </span>
+            <div class="form-group">
+                <input class="form-control js-trip-list-entry-date" id="date" name="date" placeholder="MM/DD/YYYY" type="text" />
+            </div>
+            <span>Destination: </span><input type="text" name="trip-list-entry-destination" class="js-trip-list-entry-destination form-control"><br>
             <span>Budget: </span><input type="number" name="trip-list-entry-budget" class="js-trip-list-entry-budget form-control"><br>
             <span>Airfare Cost: </span><input type="number" name="trip-list-entry-airfare" class="js-trip-list-entry-airfare form-control"><br>
             <span>Lodging Cost: </span><input type="number" name="trip-list-entry-lodging" class="js-trip-list-entry-lodging form-control"><br>
@@ -41,7 +49,11 @@
             <div class="single-trip">
                 <form class="js-saved-trips">
                     <li class="js-item-index-element">
-                        <span class="saved-item">Destination: </span><input name="tripdestination" type="text" class="trip-item js-trip-item"><br>
+                        <span class="saved-item">Date of Trip: </span>
+                        <div class="form-group">
+                            <input class="form-control js-trip-item-date" id="date" name="date" placeholder="MM/DD/YYYY" type="text" />
+                        </div>
+                        <span class="saved-item">Destination: </span><input name="tripdestination" type="text" class="trip-item js-trip-item-destination"><br>
                         <span class="saved-item">Budget: </span><input name="tripbudget" type="number" class="trip-item js-trip-item-budget"><br>
                         <span class="saved-item">Airfare Cost: </span><input name="tripairfare" type="number" class="trip-item js-trip-item-airfare"><br>
                         <span class="saved-item">Lodging Cost: </span><input name="triplodging" type="number" class="trip-item js-trip-item-lodging"><br>
@@ -72,8 +84,13 @@
         </div>
     </div>
 </body>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js">
+
+</script>
 <script type="text/javascript" src="api.js"></script>
 <script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="datepicker.js"></script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>

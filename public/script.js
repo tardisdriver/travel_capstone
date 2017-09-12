@@ -1,4 +1,5 @@
-const STORE = [];
+const STORE = { trips: [] };
+
 
 function getter(trip, name) {
     const findValue = item => item.name == name;
@@ -26,11 +27,11 @@ function calculateAmountLeft(item) {
 //adds total amount saved
 function calculateNewTotalSavings(itemIndex, addedSavings) {
     console.log('calculateTotalSavings ran');
-    const currentSavings = STORE[itemIndex].savings;
+    const currentSavings = STORE.trips[itemIndex].savings;
     const newTotal = parseInt(currentSavings) + parseInt(addedSavings);
 
-    STORE[itemIndex].savings = newTotal;
-    console.log('new STORE entry = ', STORE[itemIndex].savings);
+    STORE.trips[itemIndex].savings = newTotal;
+    console.log('new STORE.trips entry = ', STORE.trips[itemIndex].savings);
 }
 
 //handles add to savings button
@@ -97,7 +98,7 @@ function generateTripItemsString(tripList) {
 function renderTripList(index) {
     console.log('renderTripList ran');
     // generate HTML for the list
-    const tripListItemsString = generateTripItemsString(STORE);
+    const tripListItemsString = generateTripItemsString(STORE.trips);
     // insert that HTML into the DOM
     if (index != undefined) {
         var insertion = `#js-trip-info-${index}`;
@@ -114,7 +115,7 @@ function addItemToTripList(itemDate, itemDestination, itemBudget, itemAirfare, i
     console.log('Adding stuff to Trip list');
     const newTrip = { date: itemDate, destination: itemDestination, budget: itemBudget, costs: [{ name: "airfare", value: itemAirfare }, { name: "lodging", value: itemLodging }] };
     console.log(newTrip);
-    STORE.push(newTrip);
+    STORE.trips.push(newTrip);
     addTrip(newTrip);
 }
 
@@ -151,10 +152,10 @@ function getItemIndexFromElement(item) {
 
 //DELETE BEGIN
 
-//removes selected item from the STORE
+//removes selected item from the STORE.trips
 function deleteClickedItem(itemIndex) {
     console.log("Deleting li for item at index " + itemIndex);
-    STORE.splice(itemIndex, 1);
+    STORE.trips.splice(itemIndex, 1);
     deleteTrip(itemIndex);
 }
 
@@ -171,18 +172,18 @@ function handleDeleteItemClicked() {
 
 //PUT BEGIN
 
-//fetches new user input and places it in the STORE
+//fetches new user input and places it in the STORE.trips
 function editClickedItem({ itemIndex, newDate, newAirfare, newDestination, newBudget, newLodging }) {
     console.log('Editing item at index ' + itemIndex);
 
-    //change appropriate entry in STORE
-    STORE[itemIndex].date = newDate;
-    STORE[itemIndex].destination = newDestination;
-    STORE[itemIndex].budget = newBudget;
-    STORE[itemIndex].costs[0].value = newAirfare;
-    STORE[itemIndex].costs[1].value = newLodging;
+    //change appropriate entry in STORE.trips
+    STORE.trips[itemIndex].date = newDate;
+    STORE.trips[itemIndex].destination = newDestination;
+    STORE.trips[itemIndex].budget = newBudget;
+    STORE.trips[itemIndex].costs[0].value = newAirfare;
+    STORE.trips[itemIndex].costs[1].value = newLodging;
 
-    editTrip(STORE[itemIndex], itemIndex);
+    editTrip(STORE.trips[itemIndex], itemIndex);
     render();
 }
 
@@ -221,7 +222,7 @@ $(function () {
     getTrips()
         .then((trips) =>
             trips.forEach(trip => {
-                STORE.push(trip)
+                STORE.trips.push(trip)
             })
         )
         .then(render)

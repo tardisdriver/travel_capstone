@@ -12,7 +12,7 @@ const retrieveFromLocal = () => {
                 { name: "airfare", value: 1000 },
                 { name: "lodging", value: 900 }
             ],
-            savings: 450
+
         },
         {
             date: "2018/04/23",
@@ -23,7 +23,6 @@ const retrieveFromLocal = () => {
                 { name: "airfare", value: 1300 },
                 { name: "lodging", value: 1000 }
             ],
-            savings: 1250
         }
     ];
     if (data) {
@@ -38,11 +37,31 @@ const saveToLocal = (obj) => {
     localStorage.setItem('localObj', JSON.stringify(obj));
 }
 
+
+function saveTrips(trips) {
+    if (username) {
+        //save to API
+        $.ajax({
+            type: 'PUT',
+            url: `http://localhost:8080/itineraries/${username}`,
+            data: trips
+        });
+    } else {
+        //save to Local
+        itemIndex = parseInt(itemIndex);
+        return getTrips()
+            .then((currentTrips) => {
+                currentTrips[itemIndex] = updatedTrip;
+                return saveTrips(currentTrips);
+            });
+    }
+}
+
 const addTrip = (obj) => {
     return getTrips()
         .then((currentTrips) => {
             currentTrips.push(obj)
-            return saveTrips(currentTrips)
+            return save(currentTrips)
         })
 }
 
@@ -50,19 +69,19 @@ const getTrips = () => {
     return Promise.resolve(retrieveFromLocal());
 }
 
-const saveTrips = (obj) => {
-    console.log('saveTrips ran');
-    saveToLocal(obj);
-    return Promise.resolve();
-}
+
+
 
 const editTrip = (updatedTrip, itemIndex) => {
-    itemIndex = parseInt(itemIndex);
-    return getTrips()
-        .then((currentTrips) => {
-            currentTrips[itemIndex] = updatedTrip;
-            return saveTrips(currentTrips);
-        })
+    //when they set username, take the whole Trips JSON and send to API put request  
+    //in state, save username, then call save,
+    //if there's a username, save to database, if not save to localstorage
+    function saveUsername() {
+        //grab username from script.js 
+        handleSetUsername();
+    }
+
+
 }
 
 const deleteTrip = (itemIndex) => {

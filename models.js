@@ -7,21 +7,19 @@ const tripSchema = mongoose.Schema({
     destination: { type: String },
     budget: { type: Number },
     costs:
-    {
-        airfare: Number,
-        lodging: Number
-    }
+    [
+        {
+            name: String,
+            value: Number
+        }
+    ]
 });
 
-tripSchema.methods.apiRepr = function () {
-    return {
-        id: this.id,
-        date: this.date,
-        destination: this.destination,
-        budget: this.budget,
-        costs: this.costs
-    };
-}
+
+const itinerarySchema = mongoose.Schema({
+    username: { type: String },
+    trips: [tripSchema]
+});
 
 const Trip = mongoose.model('Trip', tripSchema);
 

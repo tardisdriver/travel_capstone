@@ -52,14 +52,16 @@ function handleAddToSavings() {
     });
 }*/
 
-function retrieveUserName() {
+function handleSetUserName() {
     $(".js-username-submit").on("click", function (event) {
-        console.log('retrieveuserName clicked');
+        console.log('setuserName clicked');
         event.preventDefault();
         const username = $('.js-username').val();
         console.log(username);
     });
 }
+
+
 
 //uses the html template to generate divs for each saved trip
 function generateItemElement(item, itemIndex, template) {
@@ -206,7 +208,7 @@ function handleEditItemClicked() {
 //this function fires all other necessary functions
 
 function render() {
-    retrieveUserName();
+    handleSetUserName();
     renderTripList();
     handleNewItemSubmit();
     handleDeleteItemClicked();

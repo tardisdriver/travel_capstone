@@ -21,6 +21,7 @@ const itinerarySchema = mongoose.Schema({
     trips: [tripSchema]
 });
 
+const Itinerary = mongoose.model('Itinerary', itinerarySchema);
 const Trip = mongoose.model('Trip', tripSchema);
 
-module.exports = { Trip };
+module.exports = { Trip, Itinerary };

@@ -10,56 +10,65 @@ const retrieveFromLocal = () => {
 }
 
 //if username specified, retrieve trips from server and save locally, otherwise just use local storage
-const getTrips = (user) => {
-    if (user) {
+const getTrips = (username) => {
+    if (username) {
         return $.ajax({
             type: 'GET',
-            url: `http://localhost:8080/itineraries/${username}`
+            url: `/itineraries/${username}`
         }).then(trips => {
-            var itinerary = new Itinerary(trips, user);
-            itinerary.saveToLocal();
+            let itinerary = makeItinerary(trips, username);
+            itinerary.saveItineraryLocally();
             return itinerary;
         });
     } else {
-        return Promise.resolve(new Itinerary(retrieveFromLocal()));
+        return Promise.resolve(makeItinerary(retrieveFromLocal()));
     }
 }
 
-class Itinerary {
-    constructor(trips, username) {
-        this.trips = trips
-        this.username = username
+const makeItinerary = function (trips, username) {
+    function addTrip(trip) {
+        trips.push(trip);
+        return saveTrips();
     }
 
-    addTrip(trip) {
-        this.trips.push(trip);
-        return this.saveTrips();
+    function getTrip(index) {
+        return trips[index]
     }
 
-    editTrip(updatedTrip, itemIndex) {
-        this.trips[itemIndex] = updatedTrip;
-        return this.saveTrips();
+    function editTrip(updatedTrip, itemIndex) {
+        trips[itemIndex] = updatedTrip;
+        return saveTrips();
     }
 
-    deleteTrip(itemIndex) {
-        this.trips.splice(itemIndex, 1);
-        return this.saveTrips();
+    function deleteTrip(itemIndex) {
+        trips.splice(itemIndex, 1);
+        return saveTrips();
     }
 
-    saveTrips() {
-        this.saveToLocal();
-        if (this.username) {
+    function saveTrips() {
+        saveToLocal();
+        if (username) {
             //save to API
             return $.ajax({
                 type: 'PUT',
-                url: `http://localhost:8080/itineraries/${this.username}`,
-                data: this.trips
+                url: `/itineraries/${username}`,
+                data: trips
             });
         }
         return Promise.resolve();
     }
 
-    saveToLocal() {
-        localStorage.setItem('localObj', JSON.stringify(this.trips));
+    function saveToLocal() {
+        localStorage.setItem('localObj', JSON.stringify(trips));
+    }
+
+    return {
+        addTrip: addTrip,
+        editTrip: editTrip,
+        deleteTrip: deleteTrip,
+        saveItinerary: saveTrips,
+        saveItineraryLocally: saveToLocal,
+        getTrip: getTrip,
+        trips: trips
     }
 }

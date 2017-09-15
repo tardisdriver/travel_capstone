@@ -52,7 +52,8 @@ const makeItinerary = function (trips, username) {
             return $.ajax({
                 type: 'PUT',
                 url: `/itineraries/${username}`,
-                data: trips
+                data: JSON.stringify(trips),
+                contentType: 'application/json'
             });
         }
         return Promise.resolve();

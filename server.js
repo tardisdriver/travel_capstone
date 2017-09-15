@@ -11,20 +11,20 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-function findItenerary(username) {
-    return Itenerary
+function findItinerary(username) {
+    return Itinerary
         .findOne({ username: username })
-        .then(itenerary => {
-            if (itenerary) {
-                return { trips: itenerary.trips.map(trip => trip.apiRepr()) }
+        .then(itinerary => {
+            if (itinerary) {
+                return { trips: itinerary.trips.map(trip => trip.apiRepr()) }
             } else {
                 return []
             }
         })
 }
 
-app.get('/trips/:username', (req, res) => {
-    findTrips(req.params.username)
+app.get('/itineraries/:username', (req, res) => {
+    findItinerary(req.params.username)
         .then(data => res.json(data))
         .catch(err => {
             console.error(err);
@@ -32,13 +32,14 @@ app.get('/trips/:username', (req, res) => {
         });
 });
 
-app.put('/trips/:username', (req, res) => {
+app.put('/itineraries/:username', (req, res) => {
+    console.log('req.body', req.body);
     Itinerary
         .findOneAndUpdate(
         { username: req.params.username },
-        req.body,
+        { trips: req.body },
         {
-            upsert: True
+            upsert: true
         })
         .then(() => {
             console.log('Updated trips');

@@ -23,7 +23,7 @@ function handleCreateUser() {
         console.log(username);
         //the local itinerary pushed to server
         itinerary = makeItinerary(itinerary.trips, username);
-        itinerary.saveTrips();
+        itinerary.saveItinerary();
     });
 }
 
@@ -47,9 +47,6 @@ function setUser(name) {
 function generateItemElement(item, itemIndex, template) {
     const form_id = `js-trip-info-${itemIndex}`;
     template.find('.js-saved-trips').attr("id", form_id);
-    // const formattedDate = moment(item.date).format('YYYY/MM/DD');//('YYYY-MM-DD');
-    console.log(item.date);
-
     template.find('.js-trip-item-date').attr("value", item.date);
     template.find('.js-trip-item-destination').attr("value", item.destination);
     template.find('.js-trip-item-budget').attr("value", item.budget);

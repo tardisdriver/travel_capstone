@@ -1,5 +1,5 @@
-let username
-let itinerary
+let username;
+let itinerary;
 
 function getter(trip, name) {
     const findValue = item => item.name == name;
@@ -43,6 +43,69 @@ function setUser(name) {
     //save to local storage
 }
 
+const makeItinerary = function (trips, username) {
+    function addTrip(trip) {
+        trips.push(trip);
+        return saveTrips(trips);
+    }
+
+    function getTrip(index) {
+        return trips[index]
+    }
+
+    function editTrip(updatedTrip, itemIndex) {
+        trips[itemIndex] = updatedTrip;
+        return saveTrips(trips);
+    }
+
+    function deleteTrip(itemIndex) {
+        trips.splice(itemIndex, 1);
+        return saveTrips(trips);
+    }
+
+    return {
+        addTrip: addTrip,
+        editTrip: editTrip,
+        deleteTrip: deleteTrip,
+        saveItinerary: saveTrips,
+        saveItineraryLocally: saveToLocal,
+        getTrip: getTrip,
+        trips: trips
+    }
+}
+
+//creates the list of saved trips in html
+function renderTripList() {
+    console.log('renderTripList ran');
+    let listOfRenders = itinerary.trips.map(renderTrip) //this would now be a list of somethings? as rendered by jQuery? as an HTML string
+    let renderedTripList = listOfRenders.join("")
+    //const tripListItemsString = generateTripItemsString(itinerary);
+    $('.js-trip-list').html(renderedTripList);
+}
+
+function renderTrip(trip, index) {
+    const template = $('#list-item-template').clone();
+    return generateItemElement(trip, index, template);
+}
+
+/*function renderTripItem(itinerary) {
+    return function (item, index) {
+        const tripListItemsString = generateTripItemsString(itinerary);
+        var insertion = `#js-trip-info-${index}`;
+        $(insertion).html(tripListItemsString);
+    }
+}
+
+//generates a string by mapping over the list of trips
+function generateTripItemsString(tripList) {
+    console.log("Generating trip list element");
+    const items = tripList.map(function (item, index) {
+        const template = $('#list-item-template').clone();
+        return generateItemElement(item, index, template);
+    });
+    return items.join("");
+}*/
+
 //uses the html template to generate divs for each saved trip
 function generateItemElement(item, itemIndex, template) {
     const form_id = `js-trip-info-${itemIndex}`;
@@ -58,30 +121,6 @@ function generateItemElement(item, itemIndex, template) {
     template.find('.js-current-savings').text(item.savings);
     template.find('.js-budget-total').text(item.budget);
     return template.html();
-}
-
-//generates a string by mapping over the list of trips
-function generateTripItemsString(tripList) {
-    console.log("Generating trip list element");
-    const items = tripList.map(function (item, index) {
-        const template = $('#list-item-template').clone();
-        return generateItemElement(item, index, template);
-    });
-    return items.join("");
-}
-
-//creates the list of saved trips in html
-function renderTripList(index) {
-    console.log('renderTripList ran');
-    // generate HTML for the list
-    const tripListItemsString = generateTripItemsString(itinerary.trips);
-    // insert that HTML into the DOM
-    if (index != undefined) {
-        var insertion = `#js-trip-info-${index}`;
-        $(insertion).html(tripListItemsString);
-    } else {
-        $('.js-trip-list').html(tripListItemsString);
-    }
 }
 
 // BEGIN PUSH CODE
@@ -100,6 +139,8 @@ function getAndClear(selector) {
     itemElement.val('');
     return itemElementValue;
 }
+
+
 //handles user input for adding a new trip
 function handleNewItemSubmit() {
     $('#js-trip-list-form').submit(function (event) {
@@ -178,6 +219,11 @@ function handleEditItemClicked() {
     });
 }
 
+function setItinerary(x) {
+    itinerary = x;
+    return itinerary;
+}
+
 //this function fires all other necessary functions
 
 function render() {
@@ -192,9 +238,12 @@ function render() {
 
 function retrieveTrips() {
     getTrips(username)
-        .then((i) => itinerary = i)
+        .then(trips => {
+            let itinerary = makeItinerary(trips, username);
+            return itinerary;
+        })
+        .then(setItinerary)
         .then(render)
 }
 
 $(retrieveTrips);
-

@@ -16,7 +16,7 @@ function findItinerary(username) {
         .findOne({ username: username })
         .then(itinerary => {
             if (itinerary) {
-                return { trips: itinerary.trips.map(trip => trip.apiRepr()) }
+                return { trips: itinerary.trips }
             } else {
                 return []
             }

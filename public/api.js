@@ -12,8 +12,6 @@ const retrieveFromLocal = () => {
 function saveTrips(trips) {
     saveToLocal(trips);
     if (username) {
-        //save to API
-        //return Promise.resolve($.ajax({
         $.ajax({
             type: 'PUT',
             url: `/itineraries/${username}`,
@@ -21,7 +19,6 @@ function saveTrips(trips) {
             contentType: 'application/json'
         });
     }
-
 }
 
 function saveToLocal(trips) {
@@ -35,8 +32,6 @@ const getTrips = (username) => {
             type: 'GET',
             url: `/itineraries/${username}`
         }
-        //return Promise.resolve($.ajax(ajaxOptions));
-        //ajax already returns promise
         return $.ajax(ajaxOptions)
             .then(res => res.trips)
 

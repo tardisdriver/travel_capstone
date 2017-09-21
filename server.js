@@ -17,7 +17,7 @@ function findItinerary(username) {
             if (itinerary) {
                 return { trips: itinerary.trips }
             } else {
-                return []
+                return { trips: [] }
             }
         })
 }
@@ -32,14 +32,12 @@ app.get('/itineraries/:username', (req, res) => {
 });
 
 app.put('/itineraries/:username', (req, res) => {
-    console.log('req.body', req.body);
     Itinerary
         .findOneAndUpdate(
         { username: req.params.username },
         { trips: req.body },
-        {
-            upsert: true
-        })
+        { upsert: true }
+        )
         .then(() => {
             console.log('Updated trips');
             res.status(204).json({ message: "Trips updated successfully" });

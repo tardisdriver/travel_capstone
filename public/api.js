@@ -10,7 +10,6 @@ const retrieveFromLocal = () => {
 }
 
 function saveTrips(trips) {
-    debugger;
     saveToLocal(trips);
     if (username) {
         //save to API
@@ -26,7 +25,6 @@ function saveTrips(trips) {
 }
 
 function saveToLocal(trips) {
-    debugger;
     localStorage.setItem(localObj, JSON.stringify(trips));
 }
 
@@ -39,7 +37,8 @@ const getTrips = (username) => {
         }
         //return Promise.resolve($.ajax(ajaxOptions));
         //ajax already returns promise
-        return $.ajax(ajaxOptions);
+        return $.ajax(ajaxOptions)
+            .then(res => res.trips)
 
     } else {
         return Promise.resolve(retrieveFromLocal());

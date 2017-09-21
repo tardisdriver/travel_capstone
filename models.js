@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const tripSchema = mongoose.Schema({
-    date: { type: Date },
+    date: { type: String },
     destination: { type: String },
     budget: { type: Number },
     costs:
@@ -14,7 +14,6 @@ const tripSchema = mongoose.Schema({
         }
     ]
 });
-
 
 const itinerarySchema = mongoose.Schema({
     username: { type: String },

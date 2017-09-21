@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 
 
 const { DATABASE_URL, PORT } = require('./config'); // {DATABASE: db, PORT: port}
-const { Trip } = require('./models');
 const { Itinerary } = require('./models');
 
 const app = express();

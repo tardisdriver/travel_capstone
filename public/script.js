@@ -44,6 +44,9 @@ function setUser(name) {
 }
 
 const makeItinerary = function (trips, username) {
+    if (!(trips instanceof Array)) {
+        throw new Error(`trips is not an array, it is ${trips}`)
+    }
     function addTrip(trip) {
         trips.push(trip);
         return saveTrips(trips);
@@ -62,13 +65,15 @@ const makeItinerary = function (trips, username) {
         trips.splice(itemIndex, 1);
         return saveTrips(trips);
     }
+    function saveItinerary() {
+        saveTrips(trips);
+    }
 
     return {
         addTrip: addTrip,
         editTrip: editTrip,
         deleteTrip: deleteTrip,
-        saveItinerary: saveTrips,
-        saveItineraryLocally: saveToLocal,
+        saveItinerary: saveItinerary,
         getTrip: getTrip,
         trips: trips
     }
@@ -192,6 +197,7 @@ function editClickedItem({ itemIndex, newDate, newAirfare, newDestination, newBu
     console.log('Editing item at index ' + itemIndex);
     //change appropriate entry in STORE.trips
     itinerary.getTrip(itemIndex).date = newDate;
+    console.log(typeof newDate);
     itinerary.getTrip(itemIndex).destination = newDestination;
     itinerary.getTrip(itemIndex).budget = newBudget;
     itinerary.getTrip(itemIndex).costs[0].value = newAirfare;
@@ -239,6 +245,7 @@ function render() {
 function retrieveTrips() {
     getTrips(username)
         .then(trips => {
+            console.log(trips);
             let itinerary = makeItinerary(trips, username);
             return itinerary;
         })

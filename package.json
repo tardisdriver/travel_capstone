@@ -5,7 +5,8 @@
     "main": "server.js",
     "scripts": {
         "start": "node server.js",
-        "test": "mocha ./tests"
+        "test": "mocha ./tests",
+        "test-watch": "mocha ./tests --watch"
     },
     "dependencies": {
         "body-parser": "^1.15.2",

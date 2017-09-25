@@ -23,6 +23,7 @@ function findItinerary(username) {
 }
 
 app.get('/itineraries/:username', (req, res) => {
+
     findItinerary(req.params.username)
         .then(data => res.json(data))
         .catch(err => {
@@ -32,6 +33,7 @@ app.get('/itineraries/:username', (req, res) => {
 });
 
 app.put('/itineraries/:username', (req, res) => {
+
     Itinerary
         .findOneAndUpdate(
         { username: req.params.username },

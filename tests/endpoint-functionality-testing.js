@@ -7,33 +7,33 @@ const expect = require('chai').expect;
 
 const should = chai.should();
 
-const { Trip } = require('../models');
+const { Itinerary } = require('../models');
 const { TEST_DATABASE_URL } = require('../config');
 const { app, runServer, closeServer } = require('../server');
 
 chai.use(chaiHttp);
 
-function seedTripData() {
-    console.info('seeding trip data');
-    const seedData = [];
-
-    for (let i = 1; i <= 10; i++) {
-        seedData.push(generateTripData());
-    }
-    return Trip.insertMany(seedData);
-}
-
-function generateTripData() {
-    return {
-        destination: faker.address.country(),
-        budget: faker.random.number(),
-        costs:
-        {
-            airfare: faker.random.number(),
-            lodging: faker.random.number()
+function seedTrip() {
+    const seededTrip = {
+        username: 'TestGuy',
+        trips: [{
+            date: '05/14/2020',
+            destination: 'Narnia',
+            budget: 7000,
+            costs: [
+                {
+                    name: 'airfare',
+                    value: 1300
+                },
+                {
+                    name: 'lodging',
+                    value: 1352
+                }
+            ]
         }
-
+        ]
     }
+    return Itinerary.create(seededTrip);
 }
 
 function tearDownDb() {
@@ -45,10 +45,6 @@ describe('Endpoint Testing', function () {
     before(function () {
         return runServer(TEST_DATABASE_URL);
     });
-    beforeEach(function () {
-        console.log('seeding trip data');
-        return seedTripData();
-    });
     afterEach(function () {
         return tearDownDb();
     });
@@ -56,22 +52,83 @@ describe('Endpoint Testing', function () {
         return closeServer();
     })
 
-    describe('GET endpoint', function () {
-
-
-        it('should return trips and have a length equal to the trip count', function () {
-
-            return chai.request(app)
-
-                .get('/trips')
-                .then(function (tri) {
-                    expect(tri.body.trips).to.exist;
-                    expect(tri.body.trips).to.have.length.of.at.least(1);
-                    return Trip.count().then(function (count) {
-                        expect(tri.body.trips).to.have.length.of(count);
-                    });
+    describe('Reading user trips functionality', function () {
+        it('should return users trips', function () {
+            return seedTrip()
+                .then(() => {
+                    return chai.request(app)
+                        .get('/itineraries/TestGuy')
+                        .then(function (res) {
+                            res.should.have.status(200);
+                            res.should.be.json;
+                            res.body.should.be.a('object');
+                        });
                 });
         });
 
     });
+    describe('Updating trips functionality', function () {
+        it('should update trip info', function () {
+            const updatedTrip = {
+                username: 'TestGuy',
+                trips: [{
+                    date: '05/14/2020',
+                    destination: 'Narnia',
+                    budget: 99999,
+                    costs: [
+                        {
+                            name: 'airfare',
+                            value: 1300
+                        },
+                        {
+                            name: 'lodging',
+                            value: 1352
+                        }
+                    ]
+                }
+                ]
+            };
+
+            return seedTrip()
+                .then(function (trip) {
+                    console.log(trip);
+                    updatedTripUsername = trip.username;
+                    return chai.request(app)
+                        .put(`/itineraries/${updatedTripUsername}`)
+                        .send(updatedTrip)
+                })
+                .then(function (res) {
+                    res.should.have.status(204);
+
+                })
+        });
+    });
 });
+
+
+
+
+    // function readJSON(filename, callback){
+    //     fs.readFile(filename, 'utf8', function (err, res){
+    //       if (err) return callback(err);
+    //       try {
+    //         res = JSON.parse(res);
+    //       } catch (ex) {
+    //         return callback(ex);
+    //       }
+    //       callback(null, res);
+    //     });
+    //   }
+
+    //   function readJSON(filename){
+    //     return readFile(filename, 'utf8').then(function (res){
+    //       return JSON.parse(res)
+    //     })
+    //   }
+
+    //   Tank.create({
+    //       size: 'small'
+    //   })
+    //   .then(function(res){
+    //       return 
+    //   }

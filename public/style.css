@@ -107,7 +107,7 @@ ul {
     margin: 5% 5px 5px 5px;
 }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (min-device-width: 640px) {
     #sub-container {
         background-image: url('/images/folders.png');
     }

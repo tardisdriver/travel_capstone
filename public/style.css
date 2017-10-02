@@ -8,7 +8,11 @@
 
 header {
     font-family: 'Shadows Into Light', cursive;
-    color: #FFFFFF;
+    color: #F6EDED;
+}
+
+html {
+    background-color: #e6eef1;
 }
 
 h1 {
@@ -21,6 +25,12 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #c3d6dc;
+  
+}
+
+.container {
+    height: auto;
+ 
 }
 
 #description, #login, #logged-in {
@@ -42,7 +52,6 @@ body {
 }
 
 .unhide-saved-trips, .unhide-add-trips {
-    position: relative;
     background-color: lightblue;
     border: 1px solid;
     font-family: 'Shadows Into Light', cursive;

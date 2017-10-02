@@ -7,6 +7,7 @@
 }
 
 header {
+    
     font-family: 'Shadows Into Light', cursive;
     color: #F6EDED;
 }
@@ -15,9 +16,9 @@ html {
     background-color: #e6eef1;
 }
 
-h1 {
-    font-size: 200%;
+header h1 { 
     text-shadow: 4px 4px 6px grey;
+    font-size: 80px;
 }
 
 body {
@@ -28,13 +29,10 @@ body {
   
 }
 
-.container {
-    height: auto;
- 
-}
 
 #description, #login, #logged-in {
-    background-color:hsla(194, 26%, 81%, 0.6);;
+    background-color:hsla(194, 26%, 81%, 0.6);
+    font-size: 18px;
     border: 1px solid #c3d6dc;
     border-radius: 3px;
     padding: 7px 0 0 2%;

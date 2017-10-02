@@ -34,6 +34,10 @@ function handleRetrieveUser() {
     });
 }
 
+function handleCheckUser() {
+
+}
+
 function setUser(name) {
     username = name;
     localStorage.setItem('username', username);

@@ -33,7 +33,7 @@ function seedTrip() {
         }
         ]
     }
-    return Itinerary.create(seededTrip);
+    return Itinerary.create(seededTrip)
 }
 
 function tearDownDb() {
@@ -90,45 +90,19 @@ describe('Endpoint Testing', function () {
             };
 
             return seedTrip()
-                .then(function (trip) {
-                    console.log(trip);
-                    updatedTripUsername = trip.username;
+                .then(function (itinerary) {
+                    //update the itinerary
                     return chai.request(app)
-                        .put(`/itineraries/${updatedTripUsername}`)
+                        .put(`/itineraries/${updatedTrip.username}`)
                         .send(updatedTrip)
                 })
                 .then(function (res) {
                     res.should.have.status(204);
-
+                    return Itinerary.findOne();
+                })
+                .then(function (itinerary) {
+                    itinerary.trips[0].should.not.equal(updatedTrip.trips[0]);
                 })
         });
     });
 });
-
-
-
-
-    // function readJSON(filename, callback){
-    //     fs.readFile(filename, 'utf8', function (err, res){
-    //       if (err) return callback(err);
-    //       try {
-    //         res = JSON.parse(res);
-    //       } catch (ex) {
-    //         return callback(ex);
-    //       }
-    //       callback(null, res);
-    //     });
-    //   }
-
-    //   function readJSON(filename){
-    //     return readFile(filename, 'utf8').then(function (res){
-    //       return JSON.parse(res)
-    //     })
-    //   }
-
-    //   Tank.create({
-    //       size: 'small'
-    //   })
-    //   .then(function(res){
-    //       return 
-    //   }

@@ -20,6 +20,10 @@ header h1 {
     font-size: 90px;
 }
 
+.button-label {
+    font-size: 30px;
+}
+
 body {
    /* background-image: url("/images/beach-background.jpeg");*/
    background-image: url("/images/paris.jpg");
@@ -46,7 +50,6 @@ body {
     width: 100%;
 }
 
-
 .unhide-saved-trips, .unhide-add-trips {
     background-color: lightblue;
     border: 1px solid;
@@ -54,12 +57,12 @@ body {
     font-size: 50px;
 }
 
-.unhide-saved-trips {
+/*.unhide-saved-trips {
  margin-left: 3%;
-}
+}*/
 
 .unhide-add-trips {
-    margin-left: 4%;
+    margin-left: 2%;
 }
 
 ul {
@@ -85,28 +88,30 @@ ul {
 #budget-calc {
     font-weight: bold;
 }
+
 .saved-trips {
     margin-top: 15px;
     margin-bottom: 10px;
     padding: 0px 20px 30px 25px;
 }
 
+
 .saved-item, .trip-item {
     font-size: 30px;
 }
 .saved-item {
     display: inline-block;
-    width: 33%;
+    width: 35%;
     text-align: left;  
 }
 
 .saved-item + .trip-item {
-    width: 40%;
+    width: 55%;
     margin: 0 5% 0 4%; 
 }
 
 .trip-item-controls {
-    width: 45%;
+    width: 60%;
     display: inline-block;
     padding: 5px 0px 30px 0px;
     text-align: right;

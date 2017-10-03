@@ -18,21 +18,20 @@ html {
 
 header h1 { 
     text-shadow: 4px 4px 6px grey;
-    font-size: 80px;
+    font-size: 90px;
 }
 
 body {
-    background-image: url("/images/beach-background.jpeg");
+   /* background-image: url("/images/beach-background.jpeg");*/
+   background-image: url("/images/paris.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #c3d6dc;
-  
 }
-
 
 #description, #login, #logged-in {
     background-color:hsla(194, 26%, 81%, 0.6);
-    font-size: 18px;
+    font-size: 22px;
     border: 1px solid #c3d6dc;
     border-radius: 3px;
     padding: 7px 0 0 2%;
@@ -47,13 +46,14 @@ body {
     background-image: none;
     background-size: 100%;
     background-repeat: no-repeat;
+    width: 100%;
 }
 
 .unhide-saved-trips, .unhide-add-trips {
     background-color: lightblue;
     border: 1px solid;
     font-family: 'Shadows Into Light', cursive;
-    font-size: 140%;
+    font-size: 50px;
 }
 
 .unhide-saved-trips {
@@ -91,6 +91,9 @@ ul {
     padding: 0px 20px 30px 25px;
 }
 
+.saved-item, .trip-item {
+    font-size: 20px;
+}
 .saved-item {
     display: inline-block;
     width: 23%;
@@ -117,8 +120,11 @@ ul {
 @media only screen and (min-device-width: 640px) {
     #sub-container {
         background-image: url('/images/folders.png');
+        min-width: 1000px;
+        display: block;
     }
     .unhide-saved-trips, .unhide-add-trips {
+        font-size: 24px;
         background: transparent;
         border: none;
     }

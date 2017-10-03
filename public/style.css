@@ -21,7 +21,7 @@ header h1 {
 }
 
 .button-label {
-    font-size: 30px;
+    font-size: 27px;
 }
 
 body {
@@ -62,6 +62,7 @@ body {
 }*/
 
 .unhide-add-trips {
+    display: inline-block;
     margin-left: 2%;
 }
 
@@ -95,10 +96,10 @@ ul {
     padding: 0px 20px 30px 25px;
 }
 
-
 .saved-item, .trip-item {
     font-size: 30px;
 }
+
 .saved-item {
     display: inline-block;
     width: 35%;

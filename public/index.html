@@ -23,11 +23,34 @@
             </div>
         </section>
         <div id="login">
-            <span>To save or retrieve your trips, enter a username, then click the appropriate button: </span> <br>
-            <input type="text" name="username" class="js-username"></br>
-            <button class="login-button js-username-submit btn user-btn btn-primary" type="button"><span class ="button-label">Save Trips</span></button>
-            <button class="login-button js-username-retrieve user-btn btn btn-primary" type="button"><span class ="button-label">Retrieve Trips</span></button>
+            <div class="initial">
+                <button class='initial-save-btn btn btn-primary'><span class="button-label">Save Your Trips</span></button>
+            </div>
+            <div class="choice hidden">
+                <button class='new-user-btn btn btn-primary'><span class="button-label">New User</span></button>
+                <button class='returning-user-btn btn btn-primary'><span class="button-label">Returning User</span></button>
+            </div>
+            <div class="new-user hidden">
+                <span>Enter a unique username and click Save Trips to continue:</span></br>
+                <input type="text" name="username" class="js-username"></br>
+                <div id="warning">
+                    <span class="warning-message"></span>
+                </div>
+                <button class="login-button js-username-submit btn user-btn btn-primary" type="button"><span class ="button-label">Save Trips</span></button>
+            </div>
+            <div class="returning-user hidden">
+                <span>Enter your username and click Retrieve Trips to continue:</span></br>
+                <input type="text" name="username" class="js-username"></br>
+                <div id="warning">
+                    <span class="warning-message"></span>
+                </div>
+
+                <button class="login-button js-username-retrieve user-btn btn btn-primary" type="button"><span class ="button-label">Retrieve Trips</span></button>
+
+            </div>
+
         </div>
+
         <div id="logged-in" class="hidden">
             <span id="logged-in-user"></span><br>
             <button class="js-username-submit btn user-btn btn-primary" type="button">Save Trips</button>

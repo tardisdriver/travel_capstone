@@ -40,4 +40,23 @@ const getTrips = (username) => {
     }
 }
 
+//function that checks username in the DB
+//  do a .find(_username_) on DB
+//      do GET where username equals entry
+
+function checkUsername(username) {
+    return $.ajax({
+        type: 'GET',
+        url: `/itineraries/${username}`
+    })
+        .then(res => res.trips.username)
+
+}
+
+
+
+// on create user
+
+// if username exists, display error message
+
 

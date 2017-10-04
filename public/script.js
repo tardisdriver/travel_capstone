@@ -18,10 +18,21 @@ function calculateAmountLeft(item) {
 function handleCreateUser() {
     $(".js-username-submit").on("click", function (event) {
         event.preventDefault();
-        setUser($('.js-username').val());
-        //the local itinerary pushed to server
-        itinerary = makeItinerary(itinerary.trips, username);
-        itinerary.saveItinerary();
+        //check username to see if exists
+        //  talk to api to check username
+        const currentUser = $('.js-username').val();
+        const currentUserCheck = checkUsername(currentUser);
+        if (currentUserCheck) {
+            console.log(checkUsername(currentUser));
+            //  if the username exists, display error message
+            $('.warning-message').removeClass('.hidden').text("User already exists");
+        } else {
+            //  if it doesn't, run following code:
+            setUser($('.js-username').val());
+            //the local itinerary pushed to server
+            itinerary = makeItinerary(itinerary.trips, username);
+            itinerary.saveItinerary();
+        }
     });
 }
 
@@ -34,9 +45,6 @@ function handleRetrieveUser() {
     });
 }
 
-function handleCheckUser() {
-
-}
 
 function setUser(name) {
     username = name;

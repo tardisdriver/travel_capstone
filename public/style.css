@@ -21,11 +21,10 @@ header h1 {
 }
 
 .button-label {
-    font-size: 27px;
+    font-size: 35px;
 }
 
 body {
-   /* background-image: url("/images/beach-background.jpeg");*/
    background-image: url("/images/paris.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -36,13 +35,17 @@ body {
     background-color:hsla(194, 26%, 81%, 0.6);
     font-size: 30px;
     border: 1px solid #c3d6dc;
-    border-radius: 3px;
+    border-radius: 5px;
     padding: 7px 0 0 2%;
     margin-bottom: 15px;
 }
 
 #login, #logged-in {
     padding-bottom: 5px;
+}
+
+.login-button {
+    margin-top: 11px;
 }
 
 #sub-container {
@@ -55,6 +58,7 @@ body {
     border: 1px solid;
     font-family: 'Shadows Into Light', cursive;
     font-size: 50px;
+    padding: 2px;
 }
 
 /*.unhide-saved-trips {
@@ -66,6 +70,12 @@ body {
     margin-left: 2%;
 }
 
+.add-form input {
+    width: 65%;
+    height: 90px;
+    font-size: 40px;
+}
+
 ul {
     list-style-type: none;
 }
@@ -73,7 +83,7 @@ ul {
 .add-form {
     padding: 0px 30px 10px 30px;
     margin-top: 5%;
-    font-size: 35px;
+    font-size: 45px;
 }
 
 .trip-list{
@@ -112,7 +122,7 @@ ul {
 }
 
 .trip-item-controls {
-    width: 60%;
+    width: 70%;
     display: inline-block;
     padding: 5px 0px 30px 0px;
     text-align: right;
@@ -124,9 +134,14 @@ ul {
 }
 
 @media only screen and (min-device-width: 640px) {
+    header h1 {
+        font-size: 60px;
+    }
     #sub-container {
         background-image: url('/images/folders.png');
+        background-repeat: no-repeat;
         min-width: 1000px;
+        height: 880px;
         display: block;
     }
     .unhide-saved-trips, .unhide-add-trips {
@@ -134,4 +149,34 @@ ul {
         background: transparent;
         border: none;
     }
+    .button-label {
+        font-size: 18px;
+    }
+    #description, #login, #logged-in {
+        font-size: 18px; 
+    }
+    .unhide-saved-trips, .unhide-add-trips {
+        font-size: 30px;  
+    }
+    .unhide-saved-trips {
+        margin-left: 3.5%;
+    }
+    .unhide-add-trips {
+        margin-left: 8%;
+    }
+    .add-form {
+        font-size: 20px;
+    }
+    .add-form input {
+        width: 70%;
+        height: 30px;
+        font-size: 20px;
+    }
+    .saved-item, .trip-item {
+        font-size: 18px;
+    }
+    .trip-list{
+        height: 700px;
+    }
+  
 }

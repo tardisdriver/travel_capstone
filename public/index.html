@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
     <div class="container">
         <header>
             <h1>Travel Buddy</h1>
@@ -25,9 +24,9 @@
         </section>
         <div id="login">
             <span>To save or retrieve your trips, enter a username, then click the appropriate button: </span> <br>
-            <input type="text" name="username" class="js-username">
-            <button class="js-username-submit btn user-btn btn-primary" type="button">Save Trips</button> <button class="js-username-retrieve user-btn btn btn-primary"
-                type="button">Retrieve trips</button>
+            <input type="text" name="username" class="js-username"></br>
+            <button class="login-button js-username-submit btn user-btn btn-primary" type="button"><span class ="button-label">Save Trips</span></button>
+            <button class="login-button js-username-retrieve user-btn btn btn-primary" type="button"><span class ="button-label">Retrieve Trips</span></button>
         </div>
         <div id="logged-in" class="hidden">
             <span id="logged-in-user"></span><br>
@@ -39,16 +38,16 @@
 
             <form id="js-trip-list-form" class="add-form hidden">
 
-                <span>Date of Trip: </span>
-                <input class="form-control js-trip-list-entry-date" id="date" name="date" placeholder="MM/DD/YYYY" type="text" />
-                <span>Destination: </span><input type="text" name="trip-list-entry-destination" class="js-trip-list-entry-destination form-control"><br>
+                <span>Date of Trip: </span><input class="form-control js-trip-list-entry-date" id="date" name="date" placeholder="MM/DD/YYYY"
+                    type="text" /></br>
+                <span>Destination: </span><input type="text" name="trip-list-entry-destination" class="js-trip-list-entry-destination form-control"></br>
                 <span>Budget: </span><input type="number" name="trip-list-entry-budget" class="js-trip-list-entry-budget form-control"><br>
                 <span>Airfare Cost: </span><input type="number" name="trip-list-entry-airfare" class="js-trip-list-entry-airfare form-control"><br>
                 <span>Lodging Cost: </span><input type="number" name="trip-list-entry-lodging" class="js-trip-list-entry-lodging form-control"><br>
-                <button type="submit" class="btn btn-primary">Add trip</button>
+                <button type="submit" class="btn btn-primary"><span class="button-label">Add trip</span></button>
             </form>
             <section>
-                <!--<div class="saved-container">-->
+
                 <div class="saved-trips">
                     <ul class="trip-list js-trip-list">
                     </ul>
@@ -56,7 +55,7 @@
             </section>
         </div>
     </div>
-    <!-- </div>-->
+
 
     <!-- TEMPLATE -->
     <div class="hidden">

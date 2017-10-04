@@ -127,6 +127,12 @@ ul {
     padding: 5px 0px 30px 0px;
     text-align: right;
 }
+.warning-message {
+    color: red;
+    font-size: 28px;
+    float: right;
+    margin-right: 10%;
+}
 
 .single-trip {
     padding: 10px;

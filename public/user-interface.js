@@ -1,7 +1,7 @@
 $('.user-btn').on('click', function () {
     $('#logged-in').removeClass('hidden');
     $('#login').addClass('hidden');
-    $('#logged-in-user').text(`Welcome, ${username}!`);
+    $('#logged-in-user').text(`Welcome, ${getUser()}!`);
 });
 
 $('.unhide-add-trips').on('click', function () {

@@ -1,4 +1,6 @@
-let username = localStorage.getItem('username');
+//make username var a function (getUsername)
+//make setUsername function
+
 let itinerary;
 
 function getter(trip, name) {
@@ -17,20 +19,21 @@ function calculateAmountLeft(item) {
 
 function handleCreateUser() {
     $(".js-username-submit").on("click", function (event) {
+        console.log('handleCreateuser ran');
         event.preventDefault();
         //check username to see if exists
         //  talk to api to check username
         const currentUser = $('.js-username').val();
-        const currentUserCheck = checkUsername(currentUser);
-        if (currentUserCheck) {
-            console.log(checkUsername(currentUser));
+        console.log('currentUser ', currentUser);
+        console.log(checkUsername(currentUser));
+        if (checkUsername(currentUser) === true) {
             //  if the username exists, display error message
             $('.warning-message').removeClass('.hidden').text("User already exists");
         } else {
             //  if it doesn't, run following code:
             setUser($('.js-username').val());
             //the local itinerary pushed to server
-            itinerary = makeItinerary(itinerary.trips, username);
+            itinerary = makeItinerary(itinerary.trips, getUser());
             itinerary.saveItinerary();
         }
     });
@@ -47,8 +50,11 @@ function handleRetrieveUser() {
 
 
 function setUser(name) {
-    username = name;
-    localStorage.setItem('username', username);
+    localStorage.setItem('username', name);
+}
+
+function getUser() {
+    return localStorage.getItem('username');
 }
 
 const makeItinerary = function (trips, username) {
@@ -57,7 +63,7 @@ const makeItinerary = function (trips, username) {
     }
     function addTrip(trip) {
         trips.push(trip);
-        return saveTrips(trips);
+        return saveTrips(trips, username);
     }
 
     function getTrip(index) {
@@ -66,15 +72,15 @@ const makeItinerary = function (trips, username) {
 
     function editTrip(updatedTrip, itemIndex) {
         trips[itemIndex] = updatedTrip;
-        return saveTrips(trips);
+        return saveTrips(trips, username);
     }
 
     function deleteTrip(itemIndex) {
         trips.splice(itemIndex, 1);
-        return saveTrips(trips);
+        return saveTrips(trips, username);
     }
     function saveItinerary() {
-        saveTrips(trips);
+        saveTrips(trips, username);
     }
 
     return {
@@ -206,7 +212,7 @@ function handleEditItemClicked() {
 //this function fires all other necessary functions
 
 function render() {
-    $('.js-username').val(username);
+    $('.js-username').val(getUser());
     handleCreateUser();
     handleRetrieveUser();
     renderTripList();
@@ -217,10 +223,9 @@ function render() {
 }
 
 function retrieveTrips() {
-    getTrips(username)
+    getTrips(getUser())
         .then(trips => {
-            console.log(trips);
-            itinerary = makeItinerary(trips, username);
+            itinerary = makeItinerary(trips, getUser());
             return itinerary;
         })
         .then(render)

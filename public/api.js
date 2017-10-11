@@ -9,7 +9,7 @@ const retrieveFromLocal = () => {
     }
 }
 
-function saveTrips(trips) {
+function saveTrips(trips, username) {
     saveToLocal(trips);
     if (username) {
         $.ajax({
@@ -45,11 +45,20 @@ const getTrips = (username) => {
 //      do GET where username equals entry
 
 function checkUsername(username) {
+    console.log('checkUsername Ran');
     return $.ajax({
         type: 'GET',
-        url: `/itineraries/${username}`
+        url: `/itineraries/${username}`,
+        success: function (res) {
+            if (res != undefined) {
+                var exists = true;
+            } else {
+                exists = false;
+            }
+            console.log(exists);
+            return exists;
+        }
     })
-        .then(res => res.trips.username)
 
 }
 

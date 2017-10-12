@@ -1,8 +1,9 @@
-$('.user-btn').on('click', function () {
-    $('#logged-in').removeClass('hidden');
-    $('#login').addClass('hidden');
-    $('#logged-in-user').text(`Welcome, ${getUser()}!`);
-});
+
+
+//move this to a different function that just looks at the username as a parameter
+//everytime there is a potential modify of the username, call that function after that w/ new username
+
+
 
 $('.unhide-add-trips').on('click', function () {
     $('#js-trip-list-form').toggleClass('hidden');

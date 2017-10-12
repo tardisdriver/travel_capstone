@@ -48,19 +48,19 @@ function checkUsername(username) {
     console.log('checkUsername Ran');
     return $.ajax({
         type: 'GET',
-        url: `/itineraries/${username}`,
-        success: function (res) {
-            if (res != undefined) {
-                var exists = true;
+        url: `/itineraries/${username}`
+    })
+        .then(function (res) {
+            if (res.trips.length === 0) {
+                var exists = false;
             } else {
-                exists = false;
+                exists = true;
             }
             console.log(exists);
             return exists;
-        }
-    })
-
+        })
 }
+
 
 
 

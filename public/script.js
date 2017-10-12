@@ -24,32 +24,47 @@ function handleCreateUser() {
         //check username to see if exists
         //  talk to api to check username
         const currentUser = $('.js-username').val();
-        console.log('currentUser ', currentUser);
-        console.log(checkUsername(currentUser));
-        if (checkUsername(currentUser) === true) {
-            //  if the username exists, display error message
-            $('.warning-message').removeClass('.hidden').text("User already exists");
-        } else {
-            //  if it doesn't, run following code:
-            setUser($('.js-username').val());
-            //the local itinerary pushed to server
-            itinerary = makeItinerary(itinerary.trips, getUser());
-            itinerary.saveItinerary();
-        }
+        checkUsername(currentUser)
+            .then((exists) => {
+                console.log(exists);
+                if (exists) {
+                    //  if the username exists, display error message
+                    $('#warning').removeClass('hidden')
+                    $('.warning-message').text("User already exists");
+                } else {
+                    //  if it doesn't, run following code:
+                    setUser(currentUser);
+                    //the local itinerary pushed to server
+                    itinerary = makeItinerary(itinerary.trips, getUser());
+                    itinerary.saveItinerary();
+                    $('#login').addClass('hidden');
+                    render();
+                }
+            })
     });
 }
 
 function handleRetrieveUser() {
     $(".js-username-retrieve").on("click", function (event) {
         event.preventDefault();
-        setUser($('.js-username').val());
+        setUser($('#js-username-retrieve').val());
         //retrieve itinerary from server
         retrieveTrips();
     });
 }
 
+function handleLogOut() {
+    $("#log-out").on("click", function (event) {
+        event.preventDefault();
+        itinerary = makeItinerary([]);
+        localStorage.clear();
+        render();
+    })
+}
+
 
 function setUser(name) {
+    console.log('setting username to ', name);
     localStorage.setItem('username', name);
 }
 
@@ -212,13 +227,24 @@ function handleEditItemClicked() {
 //this function fires all other necessary functions
 
 function render() {
+    console.log('render ran');
     $('.js-username').val(getUser());
+    if (getUser()) {
+        $('#logged-in-user').text(`Welcome, ${getUser()}!`);
+        $('#logged-in').removeClass('hidden');
+        $('#login').addClass('hidden');
+    } else {
+        $("#login, .initial").removeClass('hidden');
+        $('#logged-in, .choice, .new-user, .returning-user, #warning').addClass('hidden');
+
+    }
     handleCreateUser();
     handleRetrieveUser();
     renderTripList();
     handleNewItemSubmit();
     handleDeleteItemClicked();
     handleEditItemClicked();
+    handleLogOut();
     datePicker();
 }
 

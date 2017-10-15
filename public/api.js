@@ -1,4 +1,5 @@
-/* global localStorage $ */
+/* global $ localStorage */
+
 const localObj = 'localObj';
 
 const retrieveFromLocal = () => {
@@ -42,5 +43,5 @@ function checkUsername(username) {
     type: 'GET',
     url: `/itineraries/${username}`,
   })
-    .then(res => res.trips.length !== 0);
+    .then(function (res) {
 }

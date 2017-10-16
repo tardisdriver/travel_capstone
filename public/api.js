@@ -9,7 +9,6 @@ const retrieveFromLocal = () => {
   }
   return [];
 };
-
 function saveToLocal(trips) {
   localStorage.setItem(localObj, JSON.stringify(trips));
 }
@@ -44,4 +43,12 @@ function checkUsername(username) {
     url: `/itineraries/${username}`,
   })
     .then(function (res) {
+      if (res.trips.length === 0) {
+        var exists = false;
+      } else {
+        exists = true;
+      }
+      console.log(exists);
+      return exists;
+    })
 }

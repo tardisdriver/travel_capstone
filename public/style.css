@@ -44,6 +44,12 @@ body {
     padding-bottom: 5px;
 }
 
+.badge {
+    display: block;
+  margin-top: -40px;
+  margin-left: -10px;
+}
+
 .login-button {
     margin-top: 11px;
 }

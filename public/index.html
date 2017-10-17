@@ -24,6 +24,10 @@
         </section>
         <div id="login">
             <div class="initial">
+                <p class="site-descr">You may use this tool without setting a username, and your trips will be stored locally on your browser.
+                    You won't lose them unless you clear your browser cache.</p>
+                <p class="site-descr">However, if you'd like to set a username, you'll be able to retrieve your trips from anywhere, including
+                    your phone browser.</p>
                 <button class='initial-save-btn btn btn-primary'><span class="button-label">Save/Retrieve Your Trips</span></button>
             </div>
             <div class="choice hidden">
@@ -31,6 +35,7 @@
                 <button class='returning-user-btn btn btn-primary'><span class="button-label">Returning User</span></button>
             </div>
             <div class="new-user hidden">
+                <p class="site-descr">Make note of your username and keep it in a safe place. Remember that spelling and capitalization matter!</p>
                 <span>Enter a unique username and click Save Trips to continue:</span></br>
 
                 <input type="text" name="username" class="js-username">
@@ -41,6 +46,8 @@
             </div>
 
             <div class="returning-user hidden">
+                <p class="site-descr">Remember, spelling and capitalization matter. Be sure to enter your username exactly as you did when you
+                    first created your username.</p>
                 <span>Enter your username and click Retrieve Trips to continue:</span></br>
                 <input type="text" name="username" id="js-username-retrieve"></br>
 
@@ -55,9 +62,10 @@
             <button class="js-username-submit btn user-btn btn-primary" type="button"><span class="button-label">Save Trips</span></button>
             <button id="log-out" class="btn btn-primary" type="button"><span class="button-label">Log Out</span></button>
         </div>
+        <span class="label label-danger label-as-badge hidden"></span>
         <div id="sub-container">
 
-            <button class="unhide-saved-trips" type="button">Your Saved Trips</button> <span class="badge hidden"></span>
+            <button class="unhide-saved-trips" type="button">Your Saved Trips</button>
             <button class="unhide-add-trips" type="button">Add a Trip</button>
 
             <form id="js-trip-list-form" class="add-form hidden">

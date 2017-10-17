@@ -44,10 +44,14 @@ body {
     padding-bottom: 5px;
 }
 
-.badge {
-    display: block;
-  margin-top: -40px;
-  margin-left: -10px;
+.label-as-badge {
+    display: block !important;
+    position: relative;
+    border-radius: 1em !important;
+    font-size: 120% !important;
+    width: 30px;
+    margin-left: 32%;
+    top: 18px;
 }
 
 .login-button {

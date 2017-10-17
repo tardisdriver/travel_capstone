@@ -48,7 +48,7 @@ function handleLogOut() {
     event.preventDefault();
     itinerary = makeItinerary([]);
     localStorage.clear();
-    $('.badge').addClass('hidden');
+    $('.label-as-badge').addClass('hidden');
     render();
   });
 }
@@ -98,7 +98,7 @@ const makeItinerary = function (trips, username) {
 };
 
 function badgeNumber(number) {
-  $('.badge').text(number);
+  $('.label-as-badge').text(number);
 }
 
 function renderTrip(trip, index) {
@@ -112,7 +112,7 @@ function renderTripList() {
   $('.js-trip-list').html(renderedTripList);
   const badgeCount = listOfRenders.length;
   if (badgeCount !== 0) {
-    $('.badge').removeClass('hidden');
+    $('.label-as-badge').removeClass('hidden');
     badgeNumber(badgeCount);
   }
 }

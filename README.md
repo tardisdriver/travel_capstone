@@ -45,4 +45,13 @@ Returning users can click through the interface to arrive at the Returning User 
 
 Once the user enters their username, trips will be retrieved and displayed on screen.
 
+## Editing Trips
+Trips that have already been added can be edited from the Your Saved Trips tab at any time.  Clicking the Save button will commit your changes.
+
+![image 9](readme_images/image_9.png)
+
+## Deleting Trips
+Trips that have been completed or are otherwise no longer needed can be deleted using the delete button on the Your Saved Trips tab.
+
+![image 10](readme_images/image_10.png)
 

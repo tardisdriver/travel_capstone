@@ -37,14 +37,15 @@ app.put('/itineraries/:username', (req, res) => {
     { username: req.params.username },
     { trips: req.body },
     { upsert: true }
-      .then(() => {
-        console.log('Updated trips');
-        res.status(204).json({ message: 'Trips updated successfully' });
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).json({ error: 'something went wrong updating your trips' });
-      });
+    )
+    .then(() => {
+      console.log('Updated trips');
+      res.status(204).json({ message: 'Trips updated successfully' });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: 'something went wrong updating your trips' });
+    });
 });
 
 function runServer(databaseUrl = DATABASE_URL, port = PORT) {

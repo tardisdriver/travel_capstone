@@ -45,13 +45,12 @@ body {
 }
 
 .label-as-badge {
-    display: block !important;
-    position: relative;
-    border-radius: 1em !important;
-    font-size: 120% !important;
-    width: 30px;
-    margin-left: 25%;
-    top: 18px;
+    display: block;
+    position: absolute;
+    border-radius: 1em;
+    font-size: 60%;
+    top: -19px;
+    right: -15px;
 }
 
 .login-button {
@@ -71,9 +70,9 @@ body {
     padding: 2px;
 }
 
-/*.unhide-saved-trips {
- margin-left: 3%;
-}*/
+.unhide-saved-trips {
+ position: relative;
+}
 
 .unhide-add-trips {
     display: inline-block;
@@ -193,6 +192,12 @@ ul {
     }
     .trip-list{
         height: 700px;
+    }
+    .label-as-badge {
+        border-radius: 1em;
+        font-size: 70%;
+        top: -10px;
+        right: -29px;
     }
   
 }

@@ -28,54 +28,87 @@
                     You won't lose them unless you clear your browser cache.</p>
                 <p class="site-descr">However, if you'd like to set a username, you'll be able to retrieve your trips from anywhere, including
                     your phone browser.</p>
-                <button class='initial-save-btn btn btn-primary'><span class="button-label">Save/Retrieve Your Trips</span></button>
+                <button class='initial-save-btn btn btn-primary'>
+                    <span class="button-label">Save/Retrieve Your Trips</span>
+                </button>
             </div>
             <div class="choice hidden">
-                <button class='new-user-btn btn btn-primary'><span class="button-label">New User</span></button>
-                <button class='returning-user-btn btn btn-primary'><span class="button-label">Returning User</span></button>
+                <button class='new-user-btn btn btn-primary'>
+                    <span class="button-label">New User</span>
+                </button>
+                <button class='returning-user-btn btn btn-primary'>
+                    <span class="button-label">Returning User</span>
+                </button>
             </div>
             <div class="new-user hidden">
                 <p class="site-descr">Make note of your username and keep it in a safe place. Remember that spelling and capitalization matter!</p>
-                <span>Enter a unique username and click Save Trips to continue:</span></br>
+                <span>Enter a unique username and click Save Trips to continue:</span>
+                <br />
 
                 <input type="text" name="username" class="js-username">
 
-                <span id="warning" class="warning-message hidden"></span></br>
+                <span id="warning" class="warning-message hidden"></span>
+                <br />
 
-                <button class="login-button js-username-submit btn user-btn btn-primary" type="button"><span class ="button-label">Save Trips</span></button>
+                <button class="login-button js-username-submit btn user-btn btn-primary" type="button">
+                    <span class="button-label">Save Trips</span>
+                </button>
             </div>
 
             <div class="returning-user hidden">
                 <p class="site-descr">Remember, spelling and capitalization matter. Be sure to enter your username exactly as you did when you
                     first created your username.</p>
-                <span>Enter your username and click Retrieve Trips to continue:</span></br>
-                <input type="text" name="username" id="js-username-retrieve"></br>
+                <span>Enter your username and click Retrieve Trips to continue:</span>
+                <br />
+                <input type="text" name="username" id="js-username-retrieve">
+                <br />
 
-                <button class="login-button js-username-retrieve user-btn btn btn-primary" type="button"><span class ="button-label">Retrieve Trips</span></button>
+                <button class="login-button js-username-retrieve user-btn btn btn-primary" type="button">
+                    <span class="button-label">Retrieve Trips</span>
+                </button>
 
             </div>
 
         </div>
 
         <div id="logged-in" class="hidden">
-            <span id="logged-in-user"></span><br>
-            <button class="js-username-submit btn user-btn btn-primary" type="button"><span class="button-label">Save Trips</span></button>
-            <button id="log-out" class="btn btn-primary" type="button"><span class="button-label">Log Out</span></button>
+            <span id="logged-in-user"></span>
+            <br>
+            <button class="js-username-submit btn user-btn btn-primary" type="button">
+                <span class="button-label">Save Trips</span>
+            </button>
+            <button id="log-out" class="btn btn-primary" type="button">
+                <span class="button-label">Log Out</span>
+            </button>
         </div>
         <div id="sub-container">
 
-            <button class="unhide-saved-trips" type="button">Your Saved Trips <span class="label label-danger label-as-badge hidden"></span></button>
+            <button class="unhide-saved-trips" type="button">Your Saved Trips
+                <span class="label label-success label-as-badge hidden"></span>
+            </button>
             <button class="unhide-add-trips" type="button">Add a Trip</button>
 
             <form id="js-trip-list-form" class="add-form hidden">
 
-                <span>Date of Trip: </span><input class="form-control js-trip-list-entry-date" id="date" name="date" placeholder="MM/DD/YYYY"
-                    type="text" /></br>
-                <span>Destination: </span><input type="text" name="trip-list-entry-destination" class="js-trip-list-entry-destination form-control"></br>
-                <span>Budget: </span><input type="number" name="trip-list-entry-budget" class="js-trip-list-entry-budget form-control"><br>
-                <span>Airfare Cost: </span><input type="number" name="trip-list-entry-airfare" class="js-trip-list-entry-airfare form-control"><br>
-                <span>Lodging Cost: </span><input type="number" name="trip-list-entry-lodging" class="js-trip-list-entry-lodging form-control"><br>
-                <button type="submit" class="btn btn-primary"><span class="button-label">Add trip</span></button>
+                <span>Date of Trip: </span>
+                <input class="form-control js-trip-list-entry-date" id="date" name="date" placeholder="MM/DD/YYYY"
+                    type="text" />
+                <br />
+                <span>Destination: </span>
+                <input type="text" name="trip-list-entry-destination" class="js-trip-list-entry-destination form-control">
+                <br />
+                <span>Budget: </span>
+                <input type="number" name="trip-list-entry-budget" class="js-trip-list-entry-budget form-control">
+                <br>
+                <span>Airfare Cost: </span>
+                <input type="number" name="trip-list-entry-airfare" class="js-trip-list-entry-airfare form-control">
+                <br>
+                <span>Lodging Cost: </span>
+                <input type="number" name="trip-list-entry-lodging" class="js-trip-list-entry-lodging form-control">
+                <br>
+                <button type="submit" class="btn btn-primary">
+                    <span class="button-label">Add trip</span>
+                </button>
             </form>
             <section>
 
@@ -94,21 +127,32 @@
             <div class="single-trip">
                 <form class="js-saved-trips">
                     <li class="js-item-index-element">
-                        <span class="saved-item">Date of Trip: </span><input name="date" type="text" class="trip-item js-trip-item-date"
-                            id="date" placeholder="MM/DD/YYYY" /></br>
-                        <span class="saved-item">Destination: </span><input name="tripdestination" type="text" class="trip-item js-trip-item-destination"><br>
-                        <span class="saved-item">Budget: </span><input name="tripbudget" type="number" class="trip-item js-trip-item-budget"><br>
-                        <span class="saved-item">Airfare Cost: </span><input name="tripairfare" type="number" class="trip-item js-trip-item-airfare"><br>
-                        <span class="saved-item">Lodging Cost: </span><input name="triplodging" type="number" class="trip-item js-trip-item-lodging"><br>
-                        <span class="saved-item">Amount Left to Spend: </span><span id="budget-calc" class="trip-item js-budget-calc"></span>
+                        <span class="saved-item">Date of Trip: </span>
+                        <input name="date" type="text" class="trip-item js-trip-item-date" id="date"
+                            placeholder="MM/DD/YYYY" />
+                        <br />
+                        <span class="saved-item">Destination: </span>
+                        <input name="tripdestination" type="text" class="trip-item js-trip-item-destination">
+                        <br>
+                        <span class="saved-item">Budget: </span>
+                        <input name="tripbudget" type="number" class="trip-item js-trip-item-budget">
+                        <br>
+                        <span class="saved-item">Airfare Cost: </span>
+                        <input name="tripairfare" type="number" class="trip-item js-trip-item-airfare">
+                        <br>
+                        <span class="saved-item">Lodging Cost: </span>
+                        <input name="triplodging" type="number" class="trip-item js-trip-item-lodging">
+                        <br>
+                        <span class="saved-item">Amount Left to Spend: </span>
+                        <span id="budget-calc" class="trip-item js-budget-calc"></span>
                         <br>
                         <div class="trip-item-controls">
                             <button type="submit" class="js-item-edit btn btn-warning">
-                            <span class ="button-label">save changes</span>
-                        </button>
+                                <span class="button-label">save changes</span>
+                            </button>
                             <button class="btn btn-danger js-item-delete">
-                            <span class="button-label">delete</span>
-                        </button>
+                                <span class="button-label">delete</span>
+                            </button>
                         </div>
                     </li>
                 </form>

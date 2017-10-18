@@ -1,13 +1,17 @@
 /* global $ */
 
 $('.unhide-add-trips').on('click', () => {
-  $('#js-trip-list-form').toggleClass('hidden');
-  $('.saved-trips').toggleClass('hidden');
+  $('#js-trip-list-form').removeClass('hidden');
+  $('.saved-trips').addClass('hidden');
+  $('.unhide-add-trips').css('text-decoration', 'underline');
+  $('.unhide-saved-trips').css('text-decoration', 'none');
 });
 
 $('.unhide-saved-trips').on('click', () => {
-  $('#js-trip-list-form').toggleClass('hidden');
-  $('.saved-trips').toggleClass('hidden');
+  $('#js-trip-list-form').addClass('hidden');
+  $('.saved-trips').removeClass('hidden');
+  $('.unhide-saved-trips').css('text-decoration', 'underline');
+  $('.unhide-add-trips').css('text-decoration', 'none');
 });
 
 $('.initial-save-btn').on('click', () => {

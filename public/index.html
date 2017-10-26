@@ -27,7 +27,8 @@
                 <p class="site-descr">You may use this tool without setting a username, and your trips will be stored locally on your browser.
                     You won't lose them unless you clear your browser cache.</p>
                 <p class="site-descr">However, if you'd like to set a username, you'll be able to retrieve your trips from anywhere, including
-                    your phone browser.</p>
+                    your phone browser. Simply click the button below to get started creating your unique username, or if
+                    you're returning, to retrieve your trips. Happy travels!</p>
                 <button class='initial-save-btn btn btn-primary'>
                     <span class="button-label">Save/Retrieve Your Trips</span>
                 </button>
@@ -81,38 +82,51 @@
                 <span class="button-label">Log Out</span>
             </button>
         </div>
+        <div id="nav">
+            <nav>
+                <ul>
+                    <li id='js-saved-trips' class='selected'>
+                        <a href='#'>Your Saved Trips
+                            <span class="label label-success label-as-badge hidden"></span>
+                        </a>
+                    </li>
+                    <li id='js-add-trip' class='inactive'>
+                        <a href='#'>Add a Trip</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
         <div id="sub-container">
-
-            <button class="unhide-saved-trips" type="button">Your Saved Trips
-                <span class="label label-success label-as-badge hidden"></span>
-            </button>
-            <button class="unhide-add-trips" type="button">Add a Trip</button>
-
             <form id="js-trip-list-form" class="add-form hidden">
 
                 <span>Date of Trip: </span>
-                <input class="form-control js-trip-list-entry-date" id="date" name="date" placeholder="MM/DD/YYYY"
-                    type="text" />
-                <br />
+                <input class="form-control js-trip-list-entry-date" id="date" name="date" placeholder="MM/DD/YYYY" type="text" />
+
                 <span>Destination: </span>
                 <input type="text" name="trip-list-entry-destination" class="js-trip-list-entry-destination form-control">
-                <br />
+
                 <span>Budget: </span>
                 <input type="number" name="trip-list-entry-budget" class="js-trip-list-entry-budget form-control">
-                <br>
+
                 <span>Airfare Cost: </span>
                 <input type="number" name="trip-list-entry-airfare" class="js-trip-list-entry-airfare form-control">
-                <br>
+
                 <span>Lodging Cost: </span>
                 <input type="number" name="trip-list-entry-lodging" class="js-trip-list-entry-lodging form-control">
-                <br>
+
                 <button type="submit" class="btn btn-primary">
                     <span class="button-label">Add trip</span>
                 </button>
+                <div id='success' class='hidden'>
+                    <span>Your trip was added successfully.</span>
+                </div>
             </form>
             <section>
 
                 <div class="saved-trips">
+                    <div id=no-trips>
+                        <p id='no-trips-message'>No trips yet. Click the Add a Trip tab to get started!</p>
+                    </div>
                     <ul class="trip-list js-trip-list">
                     </ul>
                 </div>
@@ -128,8 +142,7 @@
                 <form class="js-saved-trips">
                     <li class="js-item-index-element">
                         <span class="saved-item">Date of Trip: </span>
-                        <input name="date" type="text" class="trip-item js-trip-item-date" id="date"
-                            placeholder="MM/DD/YYYY" />
+                        <input name="date" type="text" class="trip-item js-trip-item-date" id="date" placeholder="MM/DD/YYYY" />
                         <br />
                         <span class="saved-item">Destination: </span>
                         <input name="tripdestination" type="text" class="trip-item js-trip-item-destination">

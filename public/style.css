@@ -17,15 +17,15 @@ html {
 
 header h1 { 
     text-shadow: 4px 4px 6px grey;
-    font-size: 90px;
+    font-size: 85px;
 }
 
 .button-label {
-    font-size: 35px;
+    font-size: 30px;
 }
 
 body {
-   background-image: url("/images/paris.jpg");
+   background-image: url("images/paris.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #c3d6dc;
@@ -33,7 +33,7 @@ body {
 
 #description, #login, #logged-in {
     background-color:hsla(194, 26%, 81%, 0.6);
-    font-size: 30px;
+    font-size: 25px;
     border: 1px solid #c3d6dc;
     border-radius: 5px;
     padding: 7px 0 0 2%;
@@ -43,13 +43,16 @@ body {
 #login, #logged-in {
     padding-bottom: 5px;
 }
+#login {
+    margin-bottom: 30px;
+}
 
 .label-as-badge {
     display: block;
     position: absolute;
     border-radius: 1em;
-    font-size: 60%;
-    top: -19px;
+    font-size: 55%;
+    top: -23px;
     right: -15px;
 }
 
@@ -60,31 +63,81 @@ body {
 #sub-container {
     background-image: none;
     width: 100%;
+    
 }
 
-.unhide-saved-trips, .unhide-add-trips {
-    background-color: lightblue;
-    border: 1px solid;
+.initial-save-btn {
+    margin-bottom: 5px;
+}
+
+.inactive a {
+    background-color: #cdbfa1;
+}
+
+.selected {
+    z-index: 2;
+}
+
+.selected a {
+    z-index: 3;
+    background-color: #feebc5;
+    color: #000;
+    text-shadow: none;
+    font-weight: 500;
+}
+
+#nav ul {
+    list-style: none;
+    padding: 0 0 0 10px;
+    min-width: 450px;
+    margin-left: 15px;
     font-family: 'Shadows Into Light', cursive;
-    font-size: 50px;
-    padding: 2px;
-    outline: none;
+    font-size: 35px;
 }
 
-.unhide-saved-trips {
- position: relative;
+#nav li {
+    float: left;
+    position: relative;
+    height: 50px;
+    width: 250px;
+    margin-left: -10px;
+    border-radius: 10px 30px 0 0;
+    text-shadow: 1px 1px 0 #bbb;
+    transition: .2s;
 }
 
+#nav a {
+    display: block;
+    position: relative;
+    width: 250px;
+    height: 50px;
+    padding: 6px 10px 20px 0;
+    border-radius: 10px 30px 0 0;
+    color: #444;
+    text-align: center;
+    line-height: 40px;
+    text-decoration: none;
+    transition: .2s;
+}
 
-.unhide-add-trips {
-    display: inline-block;
-    margin-left: 2%;
+#nav li:hover {
+    z-index: 1;
+}
+
+#nav li:hover a {
+    stroke-width: 5.3px;
+    -webkit-stroke-width: 5.3px;
+    -webkit-stroke-color: #FFFFFF;
+    -webkit-fill-color: #FFFFFF;
+    text-shadow: 1px 0px 20px rgb(104, 101, 255);
+    /*background: #ccc;
+    color: #000;*/
 }
 
 .add-form input {
     width: 65%;
     height: 90px;
-    font-size: 40px;
+    font-size: 35px;
 }
 
 ul {
@@ -94,7 +147,7 @@ ul {
 .add-form {
     padding: 0px 30px 10px 30px;
     margin-top: 5%;
-    font-size: 45px;
+    font-size: 40px;
 }
 
 .trip-list{
@@ -118,7 +171,7 @@ ul {
 }
 
 .saved-item, .trip-item {
-    font-size: 30px;
+    font-size: 25px;
 }
 
 .saved-item {
@@ -140,37 +193,54 @@ ul {
 }
 .warning-message {
     color: red;
-    font-size: 28px;
+    font-size: 22px;
     
     margin-right: 10%;
+}
+
+#no-trips {
+    margin-top: 15%;
+    margin-left: 25%;
+}
+
+#no-trips-message {
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 28px;
 }
 
 .single-trip {
     padding: 10px;
     margin: 5% 5px 5px 5px;
 }
+#success {
+    display: inline;
+    margin-left: 15px;
+    font-size: 20px;
+    color: #02511d;
+    margin-top: 10px;
+}
 
 @media only screen and (min-device-width: 640px) {
     header h1 {
-        font-size: 60px;
+        font-size: 55px;
     }
     #sub-container {
-        background-image: url('/images/folders.png');
-        background-repeat: no-repeat;
+       background-color: #feedc6;
+       border-radius: 10px;
         min-width: 1000px;
         height: 880px;
-        display: block;
+        display: flow-root;
     }
     .unhide-saved-trips, .unhide-add-trips {
-        font-size: 24px;
+        font-size: 22px;
         background: transparent;
         border: none;
     }
     .button-label {
-        font-size: 18px;
+        font-size: 13px;
     }
     #description, #login, #logged-in {
-        font-size: 18px; 
+        font-size: 13px; 
     }
     .unhide-saved-trips, .unhide-add-trips {
         font-size: 30px;  
@@ -188,9 +258,10 @@ ul {
         width: 70%;
         height: 30px;
         font-size: 20px;
+        margin-bottom: 15px;
     }
     .saved-item, .trip-item {
-        font-size: 18px;
+        font-size: 13px;
     }
     .trip-list{
         height: 700px;
@@ -198,8 +269,8 @@ ul {
     .label-as-badge {
         border-radius: 1em;
         font-size: 70%;
-        top: -10px;
-        right: -29px;
+        top: -19px;
+        right: -2px;
     }
   
 }

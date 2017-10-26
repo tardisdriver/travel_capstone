@@ -52,3 +52,4 @@ function checkUsername(username) {
       return exists;
     })
 }
+

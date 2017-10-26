@@ -3,7 +3,7 @@
 let itinerary;
 
 function getter(trip, name) {
-  const findValue = item => item.name == name;
+  const findValue = item => item.name === name;
   const cost = trip.costs.find(findValue);
   return cost.value;
 }
@@ -16,9 +16,11 @@ function calculateAmountLeft(item) {
 }
 
 function handleCreateUser() {
+  console.log('handle create user ran');
   $('.js-username-submit').on('click', (event) => {
     event.preventDefault();
     const currentUser = $('.js-username').val();
+    console.log('current user ', currentUser);
     checkUsername(currentUser)
       .then((exists) => {
         if (exists) {
@@ -106,15 +108,29 @@ function renderTrip(trip, index) {
   return generateItemElement(trip, index, template);
 }
 
-function renderTripList() {
+function renderBadgeAndNoTrips() {
   const listOfRenders = itinerary.trips.map(renderTrip);
-  const renderedTripList = listOfRenders.join('');
-  $('.js-trip-list').html(renderedTripList);
   const badgeCount = listOfRenders.length;
   if (badgeCount !== 0) {
     $('.label-as-badge').removeClass('hidden');
+    $('#no-trips').addClass('hidden');
     badgeNumber(badgeCount);
+  } else {
+    $('.label-as-badge').addClass('hidden');
+    $('#no-trips').removeClass('hidden');
   }
+}
+
+function renderTripList() {
+  const listOfRenders = itinerary.trips.map(renderTrip);
+  const renderedTripList = listOfRenders.join('');
+  console.log(listOfRenders.length);
+  if (listOfRenders.length === 0) {
+    $('.js-trip-list').addClass('hidden');
+  } else {
+    $('.js-trip-list').html(renderedTripList).removeClass('hidden');
+  }
+  renderBadgeAndNoTrips();
 }
 
 function generateItemElement(item, itemIndex, template) {
@@ -177,6 +193,7 @@ function handleDeleteItemClicked() {
   $('.js-item-delete').on('click', (event) => {
     const itemIndex = getItemIndexFromElement(event.currentTarget);
     deleteClickedItem(itemIndex);
+    renderBadgeAndNoTrips();
     render();
   });
 }

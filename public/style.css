@@ -51,9 +51,9 @@ body {
     display: block;
     position: absolute;
     border-radius: 1em;
-    font-size: 55%;
-    top: -23px;
-    right: -15px;
+    font-size: 65%;
+    top: -13px;
+    right: -2px;
 }
 
 .login-button {
@@ -61,9 +61,12 @@ body {
 }
 
 #sub-container {
-    background-image: none;
+    background-color: #feedc6;
+    border-radius: 10px;
     width: 100%;
-    
+    display: flow-root;
+    height: 1080px;  
+    overflow: scroll; 
 }
 
 .initial-save-btn {
@@ -194,7 +197,6 @@ ul {
 .warning-message {
     color: red;
     font-size: 22px;
-    
     margin-right: 10%;
 }
 
@@ -220,16 +222,13 @@ ul {
     margin-top: 10px;
 }
 
-@media only screen and (min-device-width: 640px) {
+@media only screen and (min-device-width: 800px) {
     header h1 {
         font-size: 55px;
     }
     #sub-container {
-       background-color: #feedc6;
-       border-radius: 10px;
-        min-width: 1000px;
-        height: 880px;
-        display: flow-root;
+        min-width: 1000px; 
+        height: 880px;     
     }
     .unhide-saved-trips, .unhide-add-trips {
         font-size: 22px;
@@ -267,10 +266,8 @@ ul {
         height: 700px;
     }
     .label-as-badge {
-        border-radius: 1em;
         font-size: 70%;
         top: -19px;
-        right: -2px;
     }
   
 }

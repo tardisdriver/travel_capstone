@@ -127,15 +127,7 @@ body {
     z-index: 1;
 }
 
-#nav li:hover a {
-    stroke-width: 5.3px;
-    -webkit-stroke-width: 5.3px;
-    -webkit-stroke-color: #FFFFFF;
-    -webkit-fill-color: #FFFFFF;
-    text-shadow: 1px 0px 20px rgb(104, 101, 255);
-    /*background: #ccc;
-    color: #000;*/
-}
+
 
 .add-form input {
     width: 65%;
@@ -268,6 +260,13 @@ ul {
     .label-as-badge {
         font-size: 70%;
         top: -19px;
+    }
+    #nav li:hover a {
+        stroke-width: 5.3px;
+        -webkit-stroke-width: 5.3px;
+        -webkit-stroke-color: #FFFFFF;
+        -webkit-fill-color: #FFFFFF;
+        text-shadow: 1px 0px 20px rgb(104, 101, 255);
     }
   
 }

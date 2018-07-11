@@ -1,28 +1,28 @@
 {
-    "name": "travel-buddy",
-    "version": "0.0.1",
-    "description": "Travel Buddy is a vacation budgeting app'",
-    "main": "server.js",
-    "scripts": {
-        "start": "node server.js",
-        "test": "mocha ./tests",
-        "test-watch": "mocha ./tests --watch"
-    },
-    "dependencies": {
-        "body-parser": "^1.15.2",
-        "express": "^4.12.4",
-        "moment": "^2.18.1",
-        "mongoose": "^4.7.2",
-        "morgan": "^1.7.0"
-    },
-    "license": "MIT",
-    "devDependencies": {
-        "chai": "^3.5.0",
-        "chai-http": "^3.0.0",
-        "eslint": "^4.8.0",
-        "eslint-config-airbnb-base": "^12.0.2",
-        "eslint-plugin-import": "^2.7.0",
-        "faker": "^3.1.0",
-        "mocha": "^3.1.2"
-    }
+  "name": "travel-buddy",
+  "version": "0.0.1",
+  "description": "Travel Buddy is a vacation budgeting app'",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha ./tests",
+    "test-watch": "mocha ./tests --watch"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.12.4",
+    "moment": "^2.19.3",
+    "mongoose": "^4.7.2",
+    "morgan": "^1.7.0"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "eslint": "^4.8.0",
+    "eslint-config-airbnb-base": "^12.0.2",
+    "eslint-plugin-import": "^2.7.0",
+    "faker": "^3.1.0",
+    "mocha": "^3.1.2"
+  }
 }
